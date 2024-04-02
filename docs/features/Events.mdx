@@ -1,0 +1,59 @@
+---
+title: Events
+section: 8
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Events
+
+The <TypeLink type="SupplyChain" /> component features events that notify users when an item is either focused, selected or hovered over.
+This functionality provides the flexibility to respond to these state changes, allowing for the dynamic updating of
+external information panels, among other possibilities. Note that to optimize performance, it might be necessary to
+cache these functions.
+
+<Playground
+  code={`
+  function App() {
+    const onItemSelect = useCallback(
+      (selectedItems: (SupplyChainItem | SupplyChainConnection)[]) =>
+        console.log(
+          selectedItems.length ? \`selected: \${JSON.stringify(selectedItems[0])}\` : 'nothing selected'
+        ),
+      []
+    )
+
+        const onItemHover = useCallback(
+          (item: SupplyChainItem | SupplyChainConnection | null) =>
+            item && console.log(\`hovered: \${JSON.stringify(item)}\`),
+      []
+    )
+
+        const onItemFocus = useCallback(
+          (item: SupplyChainItem | SupplyChainConnection | null) =>
+            item && console.log(\`focused: \${JSON.stringify(item)}\`),
+      []
+    )
+
+    return (
+      <SupplyChain
+        data={data}
+        onItemSelect={onItemSelect}
+        onItemHover={onItemHover}
+        onItemFocus={onItemFocus}
+      ></SupplyChain>
+    )
+  }
+`}
+  data={`{
+    "items": [
+      { "name": "Copper-Ore", "id": 1, "parentId": 3 },
+      { "name": "Copper-Plate", "id": 2, "parentId": 4 },
+      { "name": "Resource", "id": 3 },
+      { "name": "Material", "id": 4 }
+    ],
+    "connections": [{ "sourceId": 1, "targetId": 2 }]
+  }`}
+/>

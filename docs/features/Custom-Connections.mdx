@@ -1,0 +1,88 @@
+---
+title: Custom Connections
+section: 2
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Custom Connections
+The <TypeLink type="SupplyChain" /> component includes a rendering feature that enables users to customize connection visualizations.
+It grants control over parameters such as stroke, bend smoothing, thickness, and arrow styles.
+
+The rendering process employs an SVG path element, allowing for the utilization of CSS to customize the stroke or
+incorporate transitions by defining a <TypeLink type="ConnectionStyle" member="className"/>. Note that to optimize performance, and depending on the implementation,
+it might be necessary to memoize the rendering function.
+
+The supply chain component supports grouping and folding of elements in the graph.
+
+For a "simple" connection, the parameter passed to the connection style provider is an array with only one entry containing
+the supply chain connection as well as the source and target supply chain items.
+
+A folding connection is visualized when group nodes are collapsed. The folding connection then contains all the connections
+that exist between two collapsed groups. In this case, the array parameter to the connection style provider contains the
+information of _all_ edges contained in the folding edge.
+
+<Playground
+  code={`
+    const importantConnectionStyle: ConnectionStyle = {
+      className: 'important-connection',
+      thickness: 6,
+      smoothingLength: 10,
+      targetArrow: {
+        type: 'triangle',
+        color: 'red'
+      }
+    }
+
+    const unimportantConnectionStyle: ConnectionStyle = {
+      className: 'unimportant-connection',
+      thickness: 4,
+      smoothingLength: 10,
+      targetArrow: {
+        type: 'triangle',
+        color: 'blue'
+      }
+    }
+
+    const connectionStyles: ConnectionStyleProvider<UserSupplyChainItem> = (
+        data: {
+          source: UserSupplyChainItem
+          target: UserSupplyChainItem
+          connection: SupplyChainConnection
+        }[]
+      ): ConnectionStyle | undefined => {
+
+      if (data[0].source.important) {
+        return importantConnectionStyle
+      }
+
+      return unimportantConnectionStyle
+    }
+
+    function App() {
+      return <SupplyChain data={data} connectionStyleProvider={connectionStyles}></SupplyChain>
+    }
+`}
+  data={`{
+    "items": [
+      { "name": "Important ingredient", "id": 1, "important": true },
+      { "name": "Unimportant ingredient", "id": 2 },
+      { "name": "Product", "id": 3 }
+    ],
+    "connections": [
+      { "sourceId": 1, "targetId": 3 },
+      { "sourceId": 2, "targetId": 3 }
+    ]
+}`}
+  css={`
+      .important-connection {
+          color: red;
+      }
+
+      .unimportant-connection {
+          color: blue;
+      }
+`}
+/>

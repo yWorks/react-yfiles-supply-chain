@@ -1,0 +1,65 @@
+---
+title: Tooltips
+section: 4
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Tooltips
+
+Tooltips display specific information when hovering over an item. Configure the tooltip by setting a custom React component in the <TypeLink type="SupplyChain" member="renderTooltip"/> prop.
+The <TypeLink type="SupplyChain" /> component provides a default tooltip that displays the name of the item and a data-grid of key-value pairs:
+
+```tsx
+function SupplyChain () {
+  return (
+    <SupplyChain
+      data={data} 
+      renderTooltip={RenderSupplyChainTooltip}>
+    </SupplyChain>
+  )
+}
+```
+
+You can also specify custom React components to render the tooltips according to your specific requirements:
+
+<Playground
+  code={`
+  
+    function MyTooltipComponent({
+      data
+    }: RenderTooltipProps<UserSupplyChainItem | UserSupplyChainConnection>) {
+      let tooltip = ""
+      if (data.sourceId && data.targetId) {
+        tooltip = \`edge from \${data.sourceId} to \${data.targetId}\`
+      }
+      else  {
+        tooltip = \`\${data.name}\`
+      }
+
+      return (
+        <div style={{ backgroundColor: 'tomato', padding: 5, borderRadius: 10, color: 'white' }}>
+          {tooltip}
+        </div>
+      )
+    }
+    
+    function App () {
+      return <SupplyChain data={data} renderTooltip={MyTooltipComponent}></SupplyChain>
+    }
+`}
+  data={`{
+    "items": [
+      { "name": "Copper-Ore", "id": 1, "parentId": 3 },
+      { "name": "Copper-Plate", "id": 2, "parentId": 4 },
+      { "name": "Resource", "id": 3 },
+      { "name": "Material", "id": 4 }
+    ],
+    "connections": [{ "sourceId": 1, "targetId": 2 }]
+  }`}
+/>
+
+
+

@@ -1,0 +1,36 @@
+.item-name {
+    margin-top: 10px;
+    margin-left: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item-price {
+    margin-top: 10px;
+    margin-left: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.item-summary {
+    display: grid;
+    align-items: center;
+    height: 100%;
+    margin-left: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.copper {
+    color: #b87333
+}
+
+.zinc {
+    color: #90979a
+}
+
+.brass {
+    color: #c0a661
+}

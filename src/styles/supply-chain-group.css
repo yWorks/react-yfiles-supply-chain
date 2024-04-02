@@ -1,0 +1,62 @@
+.yfiles-react-group {
+    border: none;
+    padding: 0 5px;
+}
+
+.yfiles-react-group__header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.yfiles-react-group__header:hover {
+    .yfiles-react-group__icon-button {
+        transform: scale(1.2);
+    }
+}
+
+.yfiles-react-group__header .yfiles-react-group__name {
+    font-weight: bold;
+}
+
+.yfiles-react-group__name {
+    flex: 1 1 100%;
+    font-size: 24px;
+    text-transform: capitalize;
+}
+
+.yfiles-react-group__icon-button {
+    flex: 0 0 32px;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 100px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.yfiles-react-group__icon {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    transition: transform 0.2s ease-in-out;
+}
+
+.yfiles-react-group__collapse-icon {
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 16 16' width='16px' height='16px'%3E%3Cpath fill='%23666666' d='M2.48,-2.16l-2.48,2.4l-2.48,-2.4l-1.12,1.12l3.6,3.6l3.6,-3.6Z'/%3E%3C/svg%3E%0A");
+}
+
+.yfiles-react-group--collapsed .yfiles-react-group__collapse-icon {
+    transform: rotate(-90deg);
+}
+
+.yfiles-react-group__content {
+    margin: 10px;
+}

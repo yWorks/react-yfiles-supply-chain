@@ -1,0 +1,48 @@
+---
+title: Connection Labels
+section: 3
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Connection Labels
+With the <TypeLink type="SupplyChain" member="connectionLabelProvider"/> specific data can be visualized for each
+connection.
+
+The provider is called for each <TypeLink type="SupplyChainConnection"/> (or <TypeLink type="FoldingConnection" /> if
+either source or target is collapsed) and should return a <TypeLink type="SimpleConnectionLabel" /> if a label should
+be shown on the connection. If the connection should not show a label, `undefined` may be returned.
+
+<Playground
+  code={`
+    function connectionLabelProvider(
+      item: SupplyChainConnection | FoldingConnection,
+      { isFoldingConnection }: SupplyChainModel
+    ): SimpleConnectionLabel | undefined {
+      if (!isFoldingConnection(item)) {
+        return {
+          text: \`From: \${item.sourceId}\\n To: \${item.targetId}\`,
+          labelShape: 'round-rectangle',
+          className: 'default-connection-label'
+        } satisfies SimpleConnectionLabel
+      }
+    }
+
+    function App() {
+      return <SupplyChain data={data} connectionLabelProvider={connectionLabelProvider}></SupplyChain>
+    }
+`}
+  data={`{
+    "items": [
+      { "name": "Important ingredient", "id": 1 },
+      { "name": "Unimportant ingredient", "id": 2 },
+      { "name": "Product", "id": 3 }
+    ],
+    "connections": [
+      { "sourceId": 1, "targetId": 3 },
+      { "sourceId": 2, "targetId": 3 }
+    ]
+}`}
+/>

@@ -1,0 +1,101 @@
+---
+title: Hook & SupplyChainProvider
+section: 12
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Hook & SupplyChainProvider
+
+Through the <TypeLink type="useSupplyChainContext" /> hook, users gain access to the supply chain model, allowing them to utilize its
+functions for further customization of the interaction with the diagram.
+
+This hook is accessible only when used in a child component of a <TypeLink type="SupplyChainProvider" />. This condition is consistently
+met when implementing child components for the <TypeLink type="SupplyChain" /> component. However, if the hook is called outside the
+supply chain component, the <TypeLink type="SupplyChainProvider" /> must be a common ancestor.
+
+The following example demonstrates how to use the hook for a button in a sidebar or a customized context menu.
+
+<Playground
+    code={`
+    function SupplyChainWrapper() {
+      const { zoomTo, fitContent, zoomToOriginal } = useSupplyChainContext()
+
+      return (
+        <>
+          <SupplyChain
+            data={data}
+            contextMenuItems={(
+              item:
+                | UserSupplyChainItem
+                | UserSupplyChainConnection
+                | FoldingConnection<UserSupplyChainConnection>
+                | null
+            ) => {
+              if (item !== null) {
+                return [{ title: 'Zoom to Item', action: () => zoomTo([item]) }]
+              }
+              return []
+            }}
+          ></SupplyChain>
+          <div className="provider-toolbar">
+            <button className="toolbar-button" onClick={() => fitContent()}>
+              Fit Content
+            </button>
+            <button className="toolbar-button" onClick={() => zoomToOriginal()}>
+              Zoom 1:1
+            </button>
+          </div>
+        </>
+      )
+    }
+
+    function App() {
+      return (
+        <SupplyChainProvider>
+          <SupplyChainWrapper></SupplyChainWrapper>
+        </SupplyChainProvider>
+      )
+    }`
+}
+    data={`{
+      "items": [
+        { "name": "Copper-Ore", "id": 1, "parentId": 3 },
+        { "name": "Copper-Plate", "id": 2, "parentId": 4 },
+        { "name": "Resource", "id": 3 },
+        { "name": "Material", "id": 4 }
+      ],
+      "connections": [{ "sourceId": 1, "targetId": 2 }]
+    }`}
+    css={`
+        .provider-toolbar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #393939;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .provider-toolbar .toolbar-button {
+            outline: none;
+            border: none;
+            background-color: #393939;
+            color: white;
+            cursor: pointer;
+            transition:
+                    background-color 0.3s ease 0s,
+                    border-color 0.3s ease 0s;
+            font-size: 16px;
+            padding: 0.5rem 1.2rem 0.5rem 0.8rem;
+            border-radius: 10px;
+        }
+
+        .provider-toolbar .toolbar-button:hover {
+            background-color: #2b2b2b;
+        }
+`
+}
+/>

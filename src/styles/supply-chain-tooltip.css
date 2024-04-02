@@ -1,0 +1,31 @@
+.yfiles-react-tooltip {
+    max-width: 65vw;
+}
+
+.yfiles-react-tooltip__name {
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+
+.yfiles-react-tooltip__data-grid {
+    display: grid;
+    grid-template-columns: fit-content(15ch) 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+.yfiles-react-tooltip__data-grid--key {
+    grid-column: 1/2;
+    color: #616161;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.yfiles-react-tooltip__data-grid--value {
+    grid-column: 2/3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

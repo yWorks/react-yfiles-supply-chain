@@ -1,0 +1,1891 @@
+{
+  "item": {
+    "reservoir": {
+      "name": "reservoir",
+      "stack_size": 50,
+      "subgroup": "alchemy"
+    },
+    "alchemy tablet": {
+      "name": "alchemy tablet",
+      "stack_size": 200,
+      "subgroup": "artisanal-goods"
+    },
+    "jar of acid": {
+      "name": "jar of acid",
+      "stack_size": 200,
+      "subgroup": "natural-resources"
+    },
+    "jar of acid-armament": {
+      "name": "jar of acid-armament",
+      "stack_size": 20,
+      "subgroup": "armament"
+    },
+    "charcoal": {
+      "name": "charcoal",
+      "stack_size": 50,
+      "subgroup": "natural-resources"
+    },
+    "cobblestone paving": {
+      "name": "cobblestone paving",
+      "stack_size": 100,
+      "subgroup": "landscape"
+    },
+    "copper nugget": {
+      "name": "copper nugget",
+      "stack_size": 50,
+      "subgroup": "natural-resources"
+    },
+    "copper ingot": {
+      "name": "copper ingot",
+      "stack_size": 100,
+      "subgroup": "natural-resources"
+    },
+    "steam engine": {
+      "name": "steam engine",
+      "stack_size": 50,
+      "subgroup": "artisanal-goods"
+    },
+    "wiring diagram": {
+      "name": "wiring diagram",
+      "stack_size": 200,
+      "subgroup": "artisanal-goods"
+    },
+    "enchanted shield": {
+      "name": "enchanted shield",
+      "stack_size": 20,
+      "subgroup": "military-armament"
+    },
+    "gear": {
+      "name": "gear",
+      "stack_size": 50,
+      "subgroup": "artisanal-goods"
+    },
+    "weaponrypowder": {
+      "name": "weaponrypowder",
+      "stack_size": 50,
+      "subgroup": "natural-resources"
+    },
+    "swift transport conveyor": {
+      "name": "swift transport conveyor",
+      "stack_size": 100,
+      "subgroup": "conveyor"
+    },
+    "quick hand": {
+      "name": "quick hand",
+      "stack_size": 50,
+      "subgroup": "lever"
+    },
+    "rapid cargo pulley-and-basket": {
+      "name": "rapid cargo pulley-and-basket",
+      "stack_size": 50,
+      "subgroup": "conveyor"
+    },
+    "rapid cargo gear mechanism": {
+      "name": "rapid cargo gear mechanism",
+      "stack_size": 50,
+      "subgroup": "conveyor"
+    },
+    "rapid transport conveyor": {
+      "name": "rapid transport conveyor",
+      "stack_size": 100,
+      "subgroup": "conveyor"
+    },
+    "rapid underground conveyor": {
+      "name": "rapid underground conveyor",
+      "stack_size": 50,
+      "subgroup": "conveyor"
+    },
+    "mechanical wings": {
+      "name": "mechanical wings",
+      "stack_size": 50,
+      "subgroup": "artisanal-goods"
+    },
+    "lever": {
+      "name": "lever",
+      "stack_size": 50,
+      "subgroup": "lever"
+    },
+    "iron-bound chest": {
+      "name": "iron-bound chest",
+      "stack_size": 50,
+      "subgroup": "repository"
+    },
+    "cogwheel": {
+      "name": "cogwheel",
+      "stack_size": 100,
+      "subgroup": "artisanal-goods"
+    },
+    "iron-vein": {
+      "name": "iron-vein",
+      "stack_size": 50,
+      "subgroup": "natural-resources"
+    },
+    "iron-ingot": {
+      "name": "iron-ingot",
+      "stack_size": 100,
+      "subgroup": "natural-resources"
+    },
+    "iron-rod": {
+      "name": "iron-rod",
+      "stack_size": 100,
+      "subgroup": "artisanal-goods"
+    },
+    "catapult": {
+      "name": "catapult",
+      "stack_size": 50,
+      "subgroup": "fortification"
+    },
+    "pulley-and-basket": {
+      "name": "pulley-and-basket",
+      "stack_size": 50,
+      "subgroup": "conveyor"
+    },
+    "reinforced-frame": {
+      "name": "reinforced-frame",
+      "stack_size": 10,
+      "subgroup": "artisanal-goods"
+    },
+    "artisan's-apron": {
+      "name": "artisan's-apron",
+      "stack_size": 20,
+      "subgroup": "armament"
+    },
+    "lead-pipe": {
+      "name": "lead-pipe",
+      "stack_size": 100,
+      "subgroup": "alchemy-lead-pipe-distribution"
+    },
+    "alchemical-crystal": {
+      "name": "alchemical-crystal",
+      "stack_size": 100,
+      "subgroup": "artisanal-goods"
+    },
+    "lookout tower": {
+      "name": "lookout tower",
+      "stack_size": 50,
+      "subgroup": "fortification"
+    },
+    "refined-cobblestone paving": {
+      "name": "refined-cobblestone paving",
+      "stack_size": 100,
+      "subgroup": "landscape"
+    },
+    "alchemy device": {
+      "name": "alchemy device",
+      "stack_size": 10,
+      "subgroup": "artisanal-goods"
+    },
+    "black powder": {
+      "name": "black powder",
+      "stack_size": 10,
+      "subgroup": "artisanal-goods"
+    },
+    "sundial": {
+      "name": "sundial",
+      "stack_size": 50,
+      "subgroup": "alchemy"
+    },
+    "gear mechanism": {
+      "name": "gear mechanism",
+      "stack_size": 50,
+      "subgroup": "conveyor"
+    },
+    "stack-lever": {
+      "name": "stack-lever",
+      "stack_size": 50,
+      "subgroup": "lever"
+    },
+    "iron plate": {
+      "name": "iron plate",
+      "stack_size": 100,
+      "subgroup": "natural-resources"
+    },
+    "cobblestone": {
+      "name": "cobblestone",
+      "stack_size": 50,
+      "subgroup": "natural-resources"
+    },
+    "cobblemasonry": {
+      "name": "cobblemasonry",
+      "stack_size": 100,
+      "subgroup": "landscape"
+    },
+    "cobblefortification": {
+      "name": "cobblefortification",
+      "stack_size": 100,
+      "subgroup": "fortification"
+    },
+    "conveyor conveyor": {
+      "name": "conveyor conveyor",
+      "stack_size": 100,
+      "subgroup": "conveyor"
+    },
+    "hidden passage": {
+      "name": "hidden passage",
+      "stack_size": 50,
+      "subgroup": "conveyor"
+    },
+    "philosopher's stone": {
+      "name": "philosopher's stone",
+      "stack_size": 100,
+      "subgroup": "artisanal-goods"
+    },
+    "uranium ore": {
+      "name": "uranium ore",
+      "stack_size": 50,
+      "subgroup": "natural-resources"
+    },
+    "timber": {
+      "name": "timber",
+      "stack_size": 100,
+      "subgroup": "natural-resources"
+    }
+  },
+  "recipe": {
+    "reservoir": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          2
+        ],
+        [
+          "jar of acid",
+          5
+        ]
+      ],
+      "result": "reservoir"
+    },
+    "abacus": {
+      "ingredients": [
+        [
+          "copper-cable",
+          5
+        ],
+        [
+          "wiring diagram",
+          5
+        ]
+      ],
+      "result": "abacus"
+    },
+    "siege engine": {
+      "ingredients": [
+        [
+          "iron plate",
+          60
+        ],
+        [
+          "cobblestone paving",
+          60
+        ],
+        [
+          "cogwheel",
+          40
+        ],
+        [
+          "alchemy tablet",
+          20
+        ]
+      ],
+      "result": "siege engine"
+    },
+    "craftsman workbench": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          3
+        ],
+        [
+          "cogwheel",
+          5
+        ],
+        [
+          "iron-ingot",
+          9
+        ]
+      ],
+      "result": "craftsman workbench"
+    },
+    "master craftsman workbench": {
+      "ingredients": [
+        [
+          "speed-tooling",
+          4
+        ],
+        [
+          "artisan workbench",
+          2
+        ]
+      ],
+      "result": "master craftsman workbench"
+    },
+    "jar of acid-armament": {
+      "ingredients": [
+        [
+          "jar of acid",
+          5
+        ],
+        [
+          "iron plate",
+          10
+        ]
+      ],
+      "result": "jar of acid-armament"
+    },
+    "jar of acid-mk2-armament": {
+      "ingredients": [
+        [
+          "jar of acid-armament",
+          10
+        ],
+        [
+          "alchemical-crystal",
+          15
+        ],
+        [
+          "reinforced-frame",
+          5
+        ]
+      ],
+      "result": "jar of acid-mk2-armament"
+    },
+    "signal fire": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          1
+        ],
+        [
+          "iron-ingot",
+          5
+        ]
+      ],
+      "result": "signal fire"
+    },
+    "chain mail": {
+      "ingredients": [
+        [
+          "alchemy tablet",
+          5
+        ],
+        [
+          "iron plate",
+          10
+        ]
+      ],
+      "result": "chain mail"
+    },
+    "great banner pole": {
+      "ingredients": [
+        [
+          "iron-rod",
+          8
+        ],
+        [
+          "iron plate",
+          5
+        ],
+        [
+          "copper ingot",
+          5
+        ]
+      ],
+      "result": "great banner pole"
+    },
+    "forge": {
+      "ingredients": [
+        [
+          "iron plate",
+          6
+        ],
+        [
+          "cobblemasonry",
+          10
+        ]
+      ],
+      "result": "forge"
+    },
+    "blacksmith arm": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          1
+        ],
+        [
+          "cogwheel",
+          1
+        ]
+      ],
+      "result": "blacksmith arm"
+    },
+    "rotary sieve": {
+      "ingredients": [
+        [
+          "cobblestone paving",
+          100
+        ],
+        [
+          "iron plate",
+          50
+        ],
+        [
+          "alchemy tablet",
+          100
+        ],
+        [
+          "cogwheel",
+          100
+        ]
+      ],
+      "result": "rotary sieve"
+    },
+    "alchemist alchemist's-laboratory": {
+      "ingredients": [
+        [
+          "iron plate",
+          5
+        ],
+        [
+          "cogwheel",
+          5
+        ],
+        [
+          "wiring diagram",
+          5
+        ],
+        [
+          "lead-pipe",
+          5
+        ]
+      ],
+      "result": "alchemist alchemist's-laboratory"
+    },
+    "cobblestone paving": {
+      "ingredients": [
+        [
+          "cobblemasonry",
+          5
+        ],
+        [
+          "iron-vein",
+          1
+        ],
+        {
+          "amount": 100,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "result": "cobblestone paving"
+    },
+    "copper ingot": {
+      "ingredients": [
+        [
+          "copper nugget",
+          1
+        ]
+      ],
+      "result": "copper ingot"
+    },
+    "judge tablet": {
+      "ingredients": [
+        [
+          "copper-cable",
+          5
+        ],
+        [
+          "wiring diagram",
+          5
+        ]
+      ],
+      "result": "judge tablet"
+    },
+    "lightning rod": {
+      "ingredients": [
+        [
+          "alchemical-crystal",
+          5
+        ],
+        [
+          "iron plate",
+          20
+        ],
+        [
+          "catapult",
+          10
+        ]
+      ],
+      "result": "lightning rod"
+    },
+    "power socket": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          2
+        ],
+        [
+          "wiring diagram",
+          5
+        ]
+      ],
+      "result": "power socket"
+    },
+    "steam engine": {
+      "ingredients": [
+        [
+          "gear",
+          1
+        ],
+        {
+          "amount": 15,
+          "name": "lubricant",
+          "type": "fluid"
+        },
+        [
+          "wiring diagram",
+          2
+        ]
+      ],
+      "result": "steam engine"
+    },
+    "electric smelter": {
+      "ingredients": [
+        [
+          "iron plate",
+          10
+        ],
+        [
+          "alchemy tablet",
+          5
+        ],
+        [
+          "cobblemasonry",
+          10
+        ]
+      ],
+      "result": "electric smelter"
+    },
+    "timberen cask": {
+      "ingredients": [
+        {
+          "amount": 1,
+          "name": "iron plate",
+          "type": "item"
+        }
+      ]
+    },
+    "enchanted shield": {
+      "ingredients": [
+        [
+          "alchemy tablet",
+          5
+        ],
+        [
+          "iron plate",
+          10
+        ]
+      ],
+      "result": "enchanted shield"
+    },
+    "enchanted shield mk2": {
+      "ingredients": [
+        [
+          "enchanted shield",
+          10
+        ],
+        [
+          "alchemical-crystal",
+          5
+        ],
+        [
+          "reinforced-frame",
+          5
+        ]
+      ],
+      "result": "enchanted shield mk2"
+    },
+    "gear": {
+      "ingredients": [
+        [
+          "iron plate",
+          1
+        ],
+        [
+          "cogwheel",
+          1
+        ],
+        [
+          "lead-pipe",
+          2
+        ]
+      ],
+      "result": "gear"
+    },
+    "armored greaves": {
+      "ingredients": [
+        [
+          "alchemical-crystal",
+          10
+        ],
+        [
+          "steam engine",
+          30
+        ],
+        [
+          "iron plate",
+          20
+        ]
+      ],
+      "result": "armored greaves"
+    },
+    "swift cargo pulley-and-basket": {
+      "ingredients": [
+        [
+          "swift transport conveyor",
+          5
+        ],
+        [
+          "rapid cargo pulley-and-basket",
+          1
+        ]
+      ],
+      "result": "swift cargo pulley-and-basket"
+    },
+    "swift cargo gear mechanism": {
+      "ingredients": [
+        [
+          "rapid cargo gear mechanism",
+          1
+        ],
+        [
+          "cogwheel",
+          10
+        ],
+        [
+          "alchemy tablet",
+          10
+        ],
+        {
+          "amount": 80,
+          "name": "lubricant",
+          "type": "fluid"
+        }
+      ],
+      "result": "swift cargo gear mechanism"
+    },
+    "swift underground conveyor": {
+      "ingredients": [
+        [
+          "cogwheel",
+          80
+        ],
+        [
+          "rapid underground conveyor",
+          2
+        ],
+        {
+          "amount": 40,
+          "name": "lubricant",
+          "type": "fluid"
+        }
+      ],
+      "result": "swift underground conveyor"
+    },
+    "quick hand": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          2
+        ],
+        [
+          "iron-ingot",
+          2
+        ],
+        [
+          "lever",
+          1
+        ]
+      ],
+      "result": "quick hand"
+    },
+    "rapid cargo pulley-and-basket": {
+      "ingredients": [
+        [
+          "rapid transport conveyor",
+          5
+        ],
+        [
+          "pulley-and-basket",
+          1
+        ]
+      ],
+      "result": "rapid cargo pulley-and-basket"
+    },
+    "rapid cargo gear mechanism": {
+      "ingredients": [
+        [
+          "gear mechanism",
+          1
+        ],
+        [
+          "cogwheel",
+          10
+        ],
+        [
+          "wiring diagram",
+          10
+        ]
+      ],
+      "result": "rapid cargo gear mechanism"
+    },
+    "rapid transport conveyor": {
+      "ingredients": [
+        [
+          "cogwheel",
+          5
+        ],
+        [
+          "conveyor conveyor",
+          1
+        ]
+      ],
+      "result": "rapid transport conveyor"
+    },
+    "rapid underground conveyor": {
+      "ingredients": [
+        [
+          "cogwheel",
+          40
+        ],
+        [
+          "hidden passage",
+          2
+        ]
+      ],
+      "result": "rapid underground conveyor"
+    },
+    "sifting hand": {
+      "ingredients": [
+        [
+          "quick hand",
+          1
+        ],
+        [
+          "wiring diagram",
+          4
+        ]
+      ],
+      "result": "sifting hand"
+    },
+    "fire thrower": {
+      "ingredients": [
+        [
+          "iron plate",
+          30
+        ],
+        [
+          "cogwheel",
+          15
+        ],
+        [
+          "lead-pipe",
+          10
+        ],
+        [
+          "gear",
+          5
+        ]
+      ],
+      "result": "fire thrower"
+    },
+    "mechanical wings": {
+      "ingredients": [
+        [
+          "steam engine",
+          1
+        ],
+        [
+          "jar of acid",
+          2
+        ],
+        [
+          "iron plate",
+          1
+        ],
+        [
+          "wiring diagram",
+          3
+        ]
+      ],
+      "result": "mechanical wings"
+    },
+    "alchemy-alchemist's-laboratoryoratory": {
+      "ingredients": [
+        [
+          "alchemical-crystal",
+          200
+        ],
+        [
+          "reinforced-frame",
+          50
+        ]
+      ],
+      "result": "alchemy-alchemist's-laboratoryoratory"
+    },
+    "portcullis": {
+      "ingredients": [
+        [
+          "cobblefortification",
+          1
+        ],
+        [
+          "iron plate",
+          2
+        ],
+        [
+          "wiring diagram",
+          2
+        ]
+      ],
+      "result": "portcullis"
+    },
+    "hemp-rope": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          1
+        ],
+        [
+          "copper-cable",
+          1
+        ]
+      ],
+      "result": "hemp-rope"
+    },
+    "ballista": {
+      "ingredients": [
+        [
+          "cogwheel",
+          10
+        ],
+        [
+          "copper ingot",
+          10
+        ],
+        [
+          "iron-ingot",
+          20
+        ]
+      ],
+      "result": "ballista"
+    },
+    "hazard-cobblestone paving": {
+      "ingredients": [
+        [
+          "cobblestone paving",
+          10
+        ]
+      ],
+      "result": "hazard-cobblestone paving"
+    },
+    "blacksmith's-furnace": {
+      "ingredients": [
+        [
+          "iron plate",
+          10
+        ],
+        [
+          "copper ingot",
+          100
+        ],
+        [
+          "lead-pipe",
+          10
+        ]
+      ],
+      "result": "blacksmith's-furnace"
+    },
+    "flue": {
+      "ingredients": [
+        [
+          "iron plate",
+          10
+        ],
+        [
+          "copper ingot",
+          20
+        ]
+      ],
+      "result": "flue"
+    },
+    "lever": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          1
+        ],
+        [
+          "cogwheel",
+          1
+        ],
+        [
+          "iron-ingot",
+          1
+        ]
+      ],
+      "result": "lever"
+    },
+    "iron-bound chest": {
+      "ingredients": [
+        [
+          "iron plate",
+          8
+        ]
+      ],
+      "result": "iron-bound chest"
+    },
+    "iron-ingot": {
+      "ingredients": [
+        [
+          "iron-vein",
+          1
+        ]
+      ],
+      "result": "iron-ingot"
+    },
+    "iron-rod": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          1
+        ]
+      ],
+      "result": "iron-rod"
+    },
+    "alchemist's-laboratory": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          10
+        ],
+        [
+          "cogwheel",
+          10
+        ],
+        [
+          "conveyor conveyor",
+          4
+        ]
+      ],
+      "result": "alchemist's-laboratory"
+    },
+    "hidden-pit": {
+      "ingredients": [
+        [
+          "iron plate",
+          1
+        ],
+        [
+          "weaponrypowder",
+          2
+        ]
+      ],
+      "result": "hidden-pit"
+    },
+    "terraforming": {
+      "ingredients": [
+        [
+          "cobblestone",
+          20
+        ]
+      ],
+      "result": "terraforming"
+    },
+    "catapult": {
+      "ingredients": [
+        [
+          "iron plate",
+          20
+        ],
+        [
+          "wiring diagram",
+          20
+        ],
+        [
+          "jar of acid",
+          12
+        ]
+      ],
+      "result": "catapult"
+    },
+    "pulley-and-basket": {
+      "ingredients": [
+        [
+          "lever",
+          5
+        ],
+        [
+          "wiring diagram",
+          5
+        ],
+        [
+          "cogwheel",
+          5
+        ],
+        [
+          "iron-ingot",
+          5
+        ],
+        [
+          "conveyor conveyor",
+          5
+        ]
+      ],
+      "result": "pulley-and-basket"
+    },
+    "merchant's-chest": {
+      "ingredients": [
+        [
+          "iron-bound chest",
+          1
+        ],
+        [
+          "wiring diagram",
+          3
+        ],
+        [
+          "alchemy tablet",
+          1
+        ]
+      ],
+      "result": "merchant's-chest"
+    },
+    "holding-crate": {
+      "ingredients": [
+        [
+          "iron-bound chest",
+          1
+        ],
+        [
+          "wiring diagram",
+          3
+        ],
+        [
+          "alchemy tablet",
+          1
+        ]
+      ],
+      "result": "holding-crate"
+    },
+    "trader's-chest": {
+      "ingredients": [
+        [
+          "iron-bound chest",
+          1
+        ],
+        [
+          "wiring diagram",
+          3
+        ],
+        [
+          "alchemy tablet",
+          1
+        ]
+      ],
+      "result": "trader's-chest"
+    },
+    "order-keeper's-chest": {
+      "ingredients": [
+        [
+          "iron-bound chest",
+          1
+        ],
+        [
+          "wiring diagram",
+          3
+        ],
+        [
+          "alchemy tablet",
+          1
+        ]
+      ],
+      "result": "order-keeper's-chest"
+    },
+    "storehouse": {
+      "ingredients": [
+        [
+          "iron-bound chest",
+          1
+        ],
+        [
+          "wiring diagram",
+          3
+        ],
+        [
+          "alchemy tablet",
+          1
+        ]
+      ],
+      "result": "storehouse"
+    },
+    "automaton": {
+      "ingredients": [
+        [
+          "mechanical wings",
+          1
+        ],
+        [
+          "alchemy tablet",
+          2
+        ]
+      ],
+      "result": "automaton"
+    },
+    "long-handed-lever": {
+      "ingredients": [
+        [
+          "cogwheel",
+          1
+        ],
+        [
+          "iron-ingot",
+          1
+        ],
+        [
+          "lever",
+          1
+        ]
+      ],
+      "result": "long-handed-lever"
+    },
+    "lamp-post": {
+      "ingredients": [
+        [
+          "iron-rod",
+          4
+        ],
+        [
+          "iron plate",
+          2
+        ],
+        [
+          "copper ingot",
+          2
+        ]
+      ],
+      "result": "lamp-post"
+    },
+    "darkvision-goggles": {
+      "ingredients": [
+        [
+          "alchemy tablet",
+          5
+        ],
+        [
+          "iron plate",
+          10
+        ]
+      ],
+      "result": "darkvision-goggles"
+    },
+    "uranium-fuel": {
+      "ingredients": [
+        [
+          "philosopher's stone",
+          1
+        ],
+        [
+          "black powder",
+          1
+        ]
+      ],
+      "result": "uranium-fuel"
+    },
+    "uranium-forge": {
+      "ingredients": [
+        [
+          "cobblestone paving",
+          500
+        ],
+        [
+          "iron plate",
+          500
+        ],
+        [
+          "alchemy tablet",
+          500
+        ],
+        [
+          "copper ingot",
+          500
+        ]
+      ],
+      "result": "uranium-forge"
+    },
+    "watermill": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          2
+        ],
+        [
+          "lead-pipe",
+          1
+        ],
+        [
+          "cogwheel",
+          1
+        ]
+      ],
+      "result": "watermill"
+    },
+    "alchemical-laboratory": {
+      "ingredients": [
+        [
+          "iron plate",
+          15
+        ],
+        [
+          "cogwheel",
+          10
+        ],
+        [
+          "cobblemasonry",
+          10
+        ],
+        [
+          "wiring diagram",
+          10
+        ],
+        [
+          "lead-pipe",
+          10
+        ]
+      ],
+      "result": "alchemical-laboratory"
+    },
+    "duelist's-gauntlet": {
+      "ingredients": [
+        [
+          "alchemical-crystal",
+          20
+        ],
+        [
+          "reinforced-frame",
+          5
+        ],
+        [
+          "catapult",
+          5
+        ]
+      ],
+      "result": "duelist's-gauntlet"
+    },
+    "artisan's-apron": {
+      "ingredients": [
+        [
+          "alchemy tablet",
+          10
+        ],
+        [
+          "cogwheel",
+          40
+        ],
+        [
+          "iron plate",
+          20
+        ],
+        [
+          "jar of acid",
+          45
+        ]
+      ],
+      "result": "artisan's-apron"
+    },
+    "master-craftsman's-apron": {
+      "ingredients": [
+        [
+          "artisan's-apron",
+          5
+        ],
+        [
+          "alchemical-crystal",
+          100
+        ],
+        [
+          "reinforced-frame",
+          20
+        ]
+      ],
+      "result": "master-craftsman's-apron"
+    },
+    "lead-sewer-pipe": {
+      "ingredients": [
+        [
+          "lead-pipe",
+          10
+        ],
+        [
+          "iron-ingot",
+          5
+        ]
+      ],
+      "result": "lead-sewer-pipe"
+    },
+    "resin-bar": {
+      "ingredients": [
+        {
+          "amount": 20,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        },
+        {
+          "amount": 1,
+          "name": "charcoal",
+          "type": "item"
+        }
+      ]
+    },
+    "lever-switch": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          5
+        ],
+        [
+          "copper-cable",
+          5
+        ],
+        [
+          "wiring diagram",
+          2
+        ]
+      ],
+      "result": "lever-switch"
+    },
+    "town crier": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          3
+        ],
+        [
+          "iron-rod",
+          4
+        ],
+        [
+          "copper-cable",
+          5
+        ],
+        [
+          "wiring diagram",
+          4
+        ]
+      ],
+      "result": "town crier"
+    },
+    "water wheel": {
+      "ingredients": [
+        [
+          "gear",
+          1
+        ],
+        [
+          "iron plate",
+          1
+        ],
+        [
+          "lead-pipe",
+          1
+        ]
+      ],
+      "result": "water wheel"
+    },
+    "water wheeljack": {
+      "ingredients": [
+        [
+          "iron plate",
+          5
+        ],
+        [
+          "cogwheel",
+          10
+        ],
+        [
+          "wiring diagram",
+          5
+        ],
+        [
+          "lead-pipe",
+          10
+        ]
+      ],
+      "result": "water wheeljack"
+    },
+    "lookout tower": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          5
+        ],
+        [
+          "cogwheel",
+          5
+        ],
+        [
+          "iron-ingot",
+          10
+        ]
+      ],
+      "result": "lookout tower"
+    },
+    "flagman": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          1
+        ],
+        [
+          "iron-ingot",
+          5
+        ]
+      ],
+      "result": "flagman"
+    },
+    "communication wire": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          1
+        ],
+        [
+          "copper-cable",
+          1
+        ]
+      ],
+      "result": "communication wire"
+    },
+    "refined-cobblestone paving": {
+      "ingredients": [
+        [
+          "cobblestone paving",
+          20
+        ],
+        [
+          "iron-rod",
+          8
+        ],
+        [
+          "iron plate",
+          1
+        ],
+        {
+          "amount": 100,
+          "name": "water",
+          "type": "fluid"
+        }
+      ],
+      "result": "refined-cobblestone paving"
+    },
+    "refined-hazard-cobblestone paving": {
+      "ingredients": [
+        [
+          "refined-cobblestone paving",
+          10
+        ]
+      ],
+      "result": "refined-hazard-cobblestone paving"
+    },
+    "stable with messengers": {
+      "ingredients": [
+        [
+          "iron plate",
+          45
+        ],
+        [
+          "cogwheel",
+          45
+        ],
+        [
+          "alchemy tablet",
+          45
+        ]
+      ],
+      "result": "stable with messengers"
+    },
+    "alchemy device": {
+      "ingredients": [
+        [
+          "alchemical-crystal",
+          1
+        ],
+        [
+          "speed-tooling",
+          1
+        ]
+      ],
+      "result": "alchemy device"
+    },
+    "black powder": {
+      "ingredients": [
+        [
+          "charcoal",
+          10
+        ],
+        {
+          "amount": 10,
+          "name": "light-oil",
+          "type": "fluid"
+        }
+      ],
+      "result": "black powder"
+    },
+    "trebuchet part": {
+      "ingredients": [
+        [
+          "alchemy device",
+          10
+        ],
+        [
+          "reinforced-frame",
+          10
+        ],
+        [
+          "black powder",
+          10
+        ]
+      ],
+      "result": "trebuchet part"
+    },
+    "siege tower": {
+      "ingredients": [
+        [
+          "iron plate",
+          1000
+        ],
+        [
+          "cobblestone paving",
+          1000
+        ],
+        [
+          "lead-pipe",
+          100
+        ],
+        [
+          "alchemical-crystal",
+          200
+        ],
+        [
+          "steam engine",
+          200
+        ]
+      ],
+      "result": "siege tower"
+    },
+    "celestial orb": {
+      "ingredients": [
+        [
+          "reinforced-frame",
+          100
+        ],
+        [
+          "sundial",
+          100
+        ],
+        [
+          "reservoir",
+          100
+        ],
+        [
+          "lookout tower",
+          5
+        ],
+        [
+          "alchemical-crystal",
+          100
+        ],
+        [
+          "black powder",
+          50
+        ]
+      ],
+      "result": "celestial orb"
+    },
+    "lantern post": {
+      "ingredients": [
+        [
+          "timber",
+          1
+        ],
+        [
+          "copper-cable",
+          2
+        ]
+      ],
+      "result": "lantern post"
+    },
+    "oil lamp": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          1
+        ],
+        [
+          "copper-cable",
+          3
+        ],
+        [
+          "iron-ingot",
+          1
+        ]
+      ],
+      "result": "oil lamp"
+    },
+    "sundial": {
+      "ingredients": [
+        [
+          "iron plate",
+          5
+        ],
+        [
+          "wiring diagram",
+          15
+        ],
+        [
+          "copper ingot",
+          5
+        ]
+      ],
+      "result": "sundial"
+    },
+    "sundial-armament": {
+      "ingredients": [
+        [
+          "sundial",
+          1
+        ],
+        [
+          "alchemy tablet",
+          2
+        ],
+        [
+          "iron plate",
+          5
+        ]
+      ],
+      "result": "sundial-armament"
+    },
+    "gear mechanism": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          5
+        ],
+        [
+          "iron-ingot",
+          5
+        ],
+        [
+          "conveyor conveyor",
+          4
+        ]
+      ],
+      "result": "gear mechanism"
+    },
+    "stack-sifting hand": {
+      "ingredients": [
+        [
+          "stack-lever",
+          1
+        ],
+        [
+          "wiring diagram",
+          5
+        ]
+      ],
+      "result": "stack-sifting hand"
+    },
+    "stack-lever": {
+      "ingredients": [
+        [
+          "cogwheel",
+          15
+        ],
+        [
+          "wiring diagram",
+          15
+        ],
+        [
+          "alchemy tablet",
+          1
+        ],
+        [
+          "quick hand",
+          1
+        ]
+      ],
+      "result": "stack-lever"
+    },
+    "windmill": {
+      "ingredients": [
+        [
+          "cogwheel",
+          50
+        ],
+        [
+          "copper ingot",
+          50
+        ],
+        [
+          "lead-pipe",
+          20
+        ]
+      ],
+      "result": "windmill"
+    },
+    "cobblemasonry": {
+      "ingredients": [
+        [
+          "cobblestone",
+          2
+        ]
+      ],
+      "result": "cobblemasonry"
+    },
+    "cobblekiln": {
+      "ingredients": [
+        [
+          "cobblestone",
+          5
+        ]
+      ],
+      "result": "cobblekiln"
+    },
+    "cobblefortification": {
+      "ingredients": [
+        [
+          "cobblemasonry",
+          5
+        ]
+      ],
+      "result": "cobblefortification"
+    },
+    "cistern": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          20
+        ],
+        [
+          "iron plate",
+          5
+        ]
+      ],
+      "result": "cistern"
+    },
+    "power relay": {
+      "ingredients": [
+        [
+          "iron plate",
+          10
+        ],
+        [
+          "alchemy tablet",
+          5
+        ],
+        [
+          "copper ingot",
+          5
+        ]
+      ],
+      "result": "power relay"
+    },
+    "brimstone": {
+      "ingredients": [
+        {
+          "amount": 30,
+          "name": "water",
+          "type": "fluid"
+        },
+        {
+          "amount": 30,
+          "name": "petroleum-gas",
+          "type": "fluid"
+        }
+      ]
+    },
+    "waystation": {
+      "ingredients": [
+        [
+          "wiring diagram",
+          5
+        ],
+        [
+          "iron-ingot",
+          6
+        ],
+        [
+          "iron-rod",
+          6
+        ],
+        [
+          "iron plate",
+          3
+        ]
+      ],
+      "result": "waystation"
+    },
+    "conveyor conveyor": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          1
+        ],
+        [
+          "cogwheel",
+          1
+        ]
+      ],
+      "result": "conveyor conveyor"
+    },
+    "hidden passage": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          10
+        ],
+        [
+          "conveyor conveyor",
+          5
+        ]
+      ],
+      "result": "hidden passage"
+    },
+    "nuclear flask": {
+      "ingredients": [
+        [
+          "iron-ingot",
+          10
+        ],
+        [
+          "philosopher's stone",
+          1
+        ],
+        [
+          "uranium ore",
+          19
+        ]
+      ],
+      "result": "nuclear flask"
+    },
+    "timberen-chest": {
+      "ingredients": [
+        [
+          "timber",
+          2
+        ]
+      ],
+      "result": "timberen-chest"
+    }
+  }
+}

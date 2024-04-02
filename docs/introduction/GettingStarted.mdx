@@ -1,0 +1,78 @@
+---
+title: Getting Started
+section: 1
+tags: []
+---
+import TypeLink from '../../components/TypeLink.astro'
+
+# Getting Started
+
+1. **Installation:**
+   Install the component via npm by running the following command in your project directory:
+   ```bash
+   npm install @yworks/react-yfiles-supply-chain
+   ```
+
+   The supply-chain module has some peer dependencies that must be installed somewhere in your project. Since it is a React module, `react` and `react-dom` dependencies are needed.
+
+   Additionally, the component relies on the [yFiles](https://www.yworks.com/yfiles-overview) library which is not published to the public npm registry. You can learn  how to work with the yFiles npm module in our [Developer's Guide](https://docs.yworks.com/yfileshtml/#/dguide/yfiles_npm_module).
+
+   Ensure that the dependencies in the `package.json` file resemble the following:
+   ```json
+   {
+     ...
+     "dependencies": {
+       "@yworks/react-yfiles-supply-chain": "^1.0.0",
+       "react": "^18.2.0",
+       "react-dom": "^18.2.0",
+       "yfiles": "<yFiles package path>/lib/yfiles-26.0.0.tgz",
+       ...
+     }
+   }
+   ```
+
+2. **License:**
+   Before using the component, a valid [yFiles for HTML](https://www.yworks.com/products/yfiles-for-html) version is required. You can evaluate yFiles for 60 days free of charge on [my.yworks.com](https://my.yworks.com/signup?product=YFILES_HTML_EVAL).
+   Be sure to invoke the <TypeLink type="registerLicense" /> function to furnish the license file before utilizing the supply-chain component.
+
+3. **Usage:**
+   Utilize the component in your application. Make sure to import the CSS stylesheet.
+
+   ```tsx
+   import {
+     UserSupplyChainItem,
+     UserSupplyChainConnection,
+     registerLicense,
+     SupplyChain,
+     SupplyChainData
+   } from '@yworks/react-yfiles-supply-chain'
+   import '@yworks/react-yfiles-supply-chain/dist/index.css'
+   import yFilesLicense from './license.json'
+
+   function App() {
+    registerLicense(yFilesLicense)
+
+    const data = {
+      items: [
+        { name: 'Copper-Ore', id: 1, parentId: 3 },
+        { name: 'Copper-Plate', id: 2, parentId: 4 },
+        { name: 'Resource', id: 3 },
+        { name: 'Material', id: 4 }
+      ],
+      connections: [{ sourceId: 1, targetId: 2 }]
+    } satisfies SupplyChainData<UserSupplyChainItem, UserSupplyChainConnection>
+    
+    return  <SupplyChain data={data}></SupplyChain>
+   }
+
+   export default App
+   ```
+
+   > **Note:** By default, the <TypeLink type="SupplyChain" /> component adjusts its size to match the size of its parent element. Therefore, it is necessary to set the dimensions of the containing element or apply styling directly to the `SupplyChain` component. This can be achieved by defining a CSS class or applying inline styles.
+
+## Learn More
+
+Explore the possibilities of visualizing supply chain diagrams with the yFiles Supply Chain Component. For further information about [yFiles for HTML](https://www.yworks.com/yfiles-overview) and our company, please visit [yWorks.com](https://www.yworks.com).
+
+For support or feedback, please reach out to [our support team](https://website.yworks.home/contact) or open an issue on GitHub. Happy diagramming!
+

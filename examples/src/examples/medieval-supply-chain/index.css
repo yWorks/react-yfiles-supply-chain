@@ -1,0 +1,37 @@
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 10px;
+}
+
+.search {
+    margin-left: auto;
+}
+
+.divider {
+    border-left: 1px solid #000;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 100%;
+}
+
+.detail-view {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 350px;
+    max-height: calc(100% - 80px);
+    overflow: auto;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(255 255 255 / 80%);
+}
+
+.high-amount-edge {
+    color: red;
+}
+
+.medium-amount-edge {
+    color: #242424;
+}

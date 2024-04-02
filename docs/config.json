@@ -1,0 +1,3 @@
+{
+  "mainComponents": ["SupplyChain", "SupplyChainProvider"]
+}

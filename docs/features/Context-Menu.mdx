@@ -1,0 +1,47 @@
+---
+title: Context Menu
+section: 5
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Context Menu
+The context menu provides context-specific actions for items.
+Set the <TypeLink type="SupplyChain" member="contextMenuItems"/> to populate the context menu with actions.
+The <TypeLink type="SupplyChain" /> component introduces a default context menu which provides actions to interact with the chart.
+
+```tsx
+function SupplyChainChart() {
+  return (
+    <SupplyChain data={data} contextMenuItems={SupplyChainContextMenuItems}></SupplyChain>
+  )
+}
+```
+
+To adjust the context menu visualization, add a custom React component using the <TypeLink type="SupplyChain" member="renderContextMenu"/> prop.
+
+<Playground
+    code={`
+    function App() {
+      return (
+        <SupplyChain
+          data={data}
+          renderContextMenu={({item}) => item?.name && (
+           <button onClick={() => alert(\`\${item.name} clicked!\`)}>Click here!</button>
+          )}
+        ></SupplyChain>
+      )
+    }`
+}
+    data={`{
+      "items": [
+        { "name": "Copper-Ore", "id": 1, "parentId": 3 },
+        { "name": "Copper-Plate", "id": 2, "parentId": 4 },
+        { "name": "Resource", "id": 3 },
+        { "name": "Material", "id": 4 }
+      ],
+      "connections": [{ "sourceId": 1, "targetId": 2 }]
+    }`}
+/>

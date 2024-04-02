@@ -1,0 +1,116 @@
+---
+title: Heatmap
+section: 10
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Heatmap
+
+The heatmap is an additional information layer that can be enabled to visualize numeric data over the graph.
+It can be enabled by setting the <TypeLink type="SupplyChain" member="heatMapping"/> function which should provide a numerical value based on the
+given data. The heat values should lie between 0 and 1.
+
+The heatmap has the following limitations:
+
+<ul className="list-disc ml-4">
+  <li>It does not currently work with Safari, as the required SVG filter functionality is not implemented there.</li>
+  <li>It is not currently exported or printed.</li>
+</ul>
+
+
+<Playground
+  code={`
+const heatMappingFunction: HeatFunction = (
+  item: SupplyChainItem | SupplyChainConnection | FoldingConnection,
+  { isConnection, isFoldingConnection }: SupplyChainModel
+): number => {
+  // For a folding connection, we add all amount values of all contained connections.
+  if (isFoldingConnection(item)) {
+    const connections = item.connections as SupplyChainConnection[]
+    const amountSum = connections.reduce((accumulator, currentConnection) => {
+      if ('amount' in currentConnection && typeof currentConnection.amount === 'number') {
+        return accumulator + currentConnection.amount
+      }
+      return accumulator
+    }, 0)
+    return amountSum / 300
+  }
+
+  if ('amount' in item && typeof item.amount === 'number') {
+    return item.amount / 300
+  }
+
+  if ('stack_size' in item && typeof item.stack_size === 'number') {
+    return item.stack_size / 100
+  }
+
+  return 0
+}
+
+function App() {
+  const [heatMapping, setHeatMapping] = useState<HeatFunction | undefined>(() => heatMappingFunction)
+
+  return (
+    <>
+      <SupplyChain
+        data={data}
+        heatMapping={heatMapping}>
+      </SupplyChain>
+
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <div>
+          <input
+            id='heatmap'
+            type='checkbox'
+            defaultChecked={true}
+            title='Heat Map'
+            style={{ color: 'black' }}
+            onChange={event => {
+              if (event.target.checked) {
+                setHeatMapping(() => heatMappingFunction)
+              } else {
+                setHeatMapping(undefined)
+              }
+            }}
+          />
+          <label htmlFor="heatmap" style={{ color: 'black' }}>Show Heat Map</label>
+        </div>
+      </div>
+    </>
+  )
+}
+`}
+  data={`{
+    items: [
+      { name: 'Natural Resource', id: 0 },
+      { name: 'Landscape', id: 1 },
+      { name: 'Craftsmanship', id: 2 },
+      { name: 'Celestial-Artifacts', id: 3 },
+      { name: 'Alchemy', id: 4 },
+      { name: 'Iron-Vein', id: 5, parentId: 0, stack_size: 50 },
+      { name: 'Cobblestone', id: 6, parentId: 0, stack_size: 50 },
+      { name: 'Masonry', id: 7, parentId: 1, stack_size: 100 },
+      { name: 'Stone Paving', id: 8, parentId: 1, stack_size: 100 },
+      { name: 'Cobblestone', id: 9, parentId: 1, stack_size: 100 },
+      { name: 'Polished Stone Floor', id: 10, parentId: 1, stack_size: 100 },
+      { name: 'Fortified Wall', id: 11, parentId: 1, stack_size: 100 },
+      { name: 'Rotary Sieve', id: 12, parentId: 2, stack_size: 50 },
+      { name: 'Astrolabe', id: 13, parentId: 3, stack_size: 1 },
+      { name: 'Forge', id: 14, parentId: 4, stack_size: 10 }
+    ],
+    connections: [
+      { sourceId: 5, targetId: 8, amount: 1 },
+      { sourceId: 6, targetId: 7, amount: 2 },
+      { sourceId: 7, targetId: 8, amount: 5 },
+      { sourceId: 8, targetId: 9, amount: 10 },
+      { sourceId: 8, targetId: 10, amount: 20 },
+      { sourceId: 8, targetId: 12, amount: 100 },
+      { sourceId: 8, targetId: 13, amount: 1000 },
+      { sourceId: 8, targetId: 14, amount: 500 },
+      { sourceId: 10, targetId: 11, amount: 10 }
+    ]
+  }`}
+/>

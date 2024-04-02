@@ -1,0 +1,228 @@
+@import '@yworks/react-yfiles-core/dist/index.css';
+
+/* this rule is needed to detect if the stylesheet is loaded */
+#yfiles-react-stylesheet-detection {
+    font-size: 1px !important;
+    display: none;
+}
+
+.yfiles-react-detail-node {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+    border-radius: 12px;
+    color: #000000;
+
+    box-shadow: 0 0 0 3px transparent, 3px 3px 5px #c0c0c0;
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.yfiles-react-detail-node__content {
+    width: 100%;
+    height: 100%;
+    padding: 0.5em;
+    box-sizing: border-box;
+    line-height: 1.5em;
+}
+
+.yfiles-react-detail-node__data-grid {
+    display: grid;
+    grid-template-columns: fit-content(15ch) 1fr;
+    grid-column-gap: 10px;
+}
+
+.yfiles-react-detail-node__data-grid--key {
+    grid-column: 1/2;
+    color: #616161;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.yfiles-react-detail-node__data-grid--value {
+    grid-column: 2/3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.yfiles-react-detail-node__name {
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+
+.yfiles-react-overview-node {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    text-transform: capitalize;
+    word-wrap: break-word;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 0.3em 0.5em;
+    border: 1px solid #c0c0c0;
+}
+
+.yfiles-react-controls__button--show-all {
+    background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='16px' height='16px' viewBox='0.5 16.5 16 16' enable-background='new 0.5 16.5 16 16' xml:space='preserve'%3E%3Cg%3E%3Cline x1='2.5' x2='14.5' y1='24.5' y2='24.5' stroke='%23666666' stroke-width='2' stroke-miterlimit='10'%3E%3C/line%3E%3Cline x1='8.5' x2='8.5' y1='18.5' y2='30.5' stroke='%23666666' stroke-width='2' stroke-miterlimit='10'%3E%3C/line%3E%3Cline x1='4.257' x2='12.742' y1='20.258' y2='28.742' stroke='%23666666' stroke-width='2' stroke-miterlimit='10'%3E%3C/line%3E%3Cline x1='12.742' x2='4.257' y1='20.258' y2='28.742' stroke='%23666666' stroke-width='2' stroke-miterlimit='10'%3E%3C/line%3E%3C/g%3E%3C/svg%3E") no-repeat 50% 50%;
+}
+
+.yfiles-react-controls__button--show-all:disabled {
+    opacity: 0.2;
+}
+
+.yfiles-react-color__background1 {
+    background-color: #EF535080
+}
+
+.yfiles-react-color__background1--transparent {
+    background-color: #EF53501A
+}
+
+.yfiles-react-color__background2 {
+    background-color: #EC407A80
+}
+
+.yfiles-react-color__background2--transparent {
+    background-color: #EC407A1A
+}
+
+.yfiles-react-color__background3 {
+    background-color: #AB47BC80
+}
+
+.yfiles-react-color__background3--transparent {
+    background-color: #AB47BC1A
+}
+
+.yfiles-react-color__background4 {
+    background-color: #7E57C280
+}
+
+.yfiles-react-color__background4--transparent {
+    background-color: #7E57C21A
+}
+
+.yfiles-react-color__background5 {
+    background-color: #5C6BC080
+}
+
+.yfiles-react-color__background5--transparent {
+    background-color: #5C6BC01A
+}
+
+.yfiles-react-color__background6 {
+    background-color: #42A5F580
+}
+
+.yfiles-react-color__background6--transparent {
+    background-color: #42A5F51A
+}
+
+.yfiles-react-color__background7 {
+    background-color: #29B6F680
+}
+
+.yfiles-react-color__background7--transparent {
+    background-color: #29B6F61A
+}
+
+.yfiles-react-color__background8 {
+    background-color: #26C6DA80
+}
+
+.yfiles-react-color__background8--transparent {
+    background-color: #26C6DA1A
+}
+
+.yfiles-react-color__background9 {
+    background-color: #26A69A80
+}
+
+.yfiles-react-color__background8--transparent {
+    background-color: #26A69A1A
+}
+
+.yfiles-react-color__background10 {
+    background-color: #66BB6A80
+}
+
+.yfiles-react-color__background10--transparent {
+    background-color: #66BB6A1A
+}
+
+.yfiles-react-color__background11 {
+    background-color: #9CCC6580
+}
+
+.yfiles-react-color__background11--transparent {
+    background-color: #9CCC651A
+}
+
+.yfiles-react-color__background12 {
+    background-color: #D4E15780
+}
+
+.yfiles-react-color__background12--transparent {
+    background-color: #D4E1571A
+}
+
+.yfiles-react-color__background13 {
+    background-color: #FFEE5880
+}
+
+.yfiles-react-color__background13--transparent {
+    background-color: #FFEE581A
+}
+
+.yfiles-react-color__background14 {
+    background-color: #FFCA2880
+}
+
+.yfiles-react-color__background14--transparent {
+    background-color: #FFCA281A
+}
+
+.yfiles-react-color__background15 {
+    background-color: #FFA72680
+}
+
+.yfiles-react-color__background15--transparent {
+    background-color: #FFA7261A
+}
+
+.yfiles-react-color__background16 {
+    background-color: #FF704380
+}
+
+.yfiles-react-color__background16--transparent {
+    background-color: #FF70431A
+}
+
+.yfiles-react-color__white {
+    background-color: white;
+}
+
+.yfiles-react-color__white--transparent {
+    background-color: #FFFFFF80;
+}
+
+.yfiles-react-connection-label .yfiles-label-text {
+    color: black;
+}
+
+.yfiles-react-connection-label  .yfiles-label-background {
+    color: whitesmoke;
+}

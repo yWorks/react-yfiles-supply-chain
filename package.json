@@ -1,0 +1,66 @@
+{
+  "name": "@yworks/react-yfiles-supply-chain",
+  "version": "1.0.0",
+  "author": {
+    "name": "yFiles for HTML team @ yWorks GmbH",
+    "email": "yfileshtml@yworks.com"
+  },
+  "description": "yFiles React Supply Chain Component - A powerful and versatile React component based on the yFiles library, allows you to seamlessly incorporate dynamic and interactive supply chain diagrams into your applications.",
+  "keywords": [
+    "react",
+    "yfiles",
+    "javascript",
+    "typescript",
+    "library",
+    "graph",
+    "diagram",
+    "supply chain",
+    "interactive"
+  ],
+  "homepage": "https://docs.yworks.com/react-yfiles-supply-chain",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yWorks/react-yfiles-supply-chain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yWorks/react-yfiles-supply-chain/issues"
+  },
+  "license": "SEE LICENSE IN ./LICENSE",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./WebWorkerSupport": "./dist/WebWorkerSupport.js",
+    "./dist/index.css": "./dist/index.css"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "tsup --watch --sourcemap --dts --format esm --entry.index src/index.ts --entry.WebWorkerSupport src/core/WebWorkerSupport.ts && api-extractor run --local",
+    "build": "tsup --clean --dts --format esm --entry.index src/index.ts --entry.WebWorkerSupport src/core/WebWorkerSupport.ts && api-extractor run --local"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "yfiles": "^26.0.3"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.39.1",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "@yworks/react-yfiles-core": "^1.1.0"
+  },
+  "files": [
+    "LICENSE",
+    "dist",
+    "package.json",
+    "README.md"
+  ]
+}

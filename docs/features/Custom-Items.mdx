@@ -1,0 +1,151 @@
+---
+title: Custom Items
+section: 1
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Customizing Items
+
+## Default visualization
+
+This component comes with styling and options suitable for general supply chain graphs.
+The items in the <TypeLink type="SupplyChain" member="data"/> array must satisfy the <TypeLink type="SupplyChain" /> type:
+
+```ts
+type SupplyChainItemId = string | number
+
+type SupplyChainItem = {
+  id: SupplyChainItemId
+  parentId?: SupplyChainItemId
+  width?: number
+  height?: number
+}
+```
+
+<ul className="list-disc ml-4">
+  <li>The optional <TypeLink type="SupplyChainItem" member="parentId" /> defines whether the item is contained in another "grouping" item.</li>
+  <li>The optional <TypeLink type="SupplyChainItem" member="width"/> and <TypeLink type="SupplyChainItem" member="height" /> define the render size of the item. If no values are given, the size is determined automatically.</li>
+</ul>
+
+The default visualization expects data items of type <TypeLink type="UserSupplyChainItem" /> which is defined like this:
+```ts
+export type UserSupplyChainItem<TCustomProps = Record<string, unknown>> = TCustomProps & SupplyChainItem
+```
+
+The default visualization colorizes all items inside groups according to a predefined color palette. The CSS classes used
+for colorization are called:
+
+<ul className="list-disc ml-4">
+  <li>`yfiles-react-color__background1` to `yfiles-react-color__background16` for more opaque colors</li>
+  <li>`yfiles-react-color__background1--transparent` to `yfiles-react-color__background16--transparent` for more transparent colors</li>
+  <li>`yfiles-react-color__white` and `yfiles-react-color__white--transparent` for items without colors.</li>
+</ul>
+
+They can be overwritten in the application's own stylesheets.
+
+## Custom items
+
+The visualization of items is highly customizable. You can specify custom React components to render the items according
+to your specific requirements. Note that to optimize performance and depending on the implementation, it might be necessary
+to use memoization for custom visualization components.
+
+<Playground
+  code={`
+    type MetalItem = UserSupplyChainItem & { price: string }
+
+    function CustomSupplyChainItem({
+      dataItem,
+      detail,
+      hovered,
+      focused,
+      selected
+    }: RenderItemProps<MetalItem>) {
+      const customSupplyChainItem = dataItem
+
+      return (
+        <div
+          className={customSupplyChainItem.className}
+          style={{
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
+            backgroundColor: selected
+              ? 'lightblue'
+              : focused
+                ? 'lightblue'
+                : hovered
+                  ? 'white'
+                  : 'whitesmoke'
+          }}
+        >
+          {detail === 'high' ? (
+            <div>
+              <div className='item-name'>{customSupplyChainItem.name}</div>
+              <div className='item-price'>{customSupplyChainItem.price}</div>
+            </div>
+          ) : (
+            <div className='item-summary'>{customSupplyChainItem.name}</div>
+          )}
+        </div>
+      )
+    }
+
+
+    function App () {
+      return (
+      <SupplyChain data={data} renderItem={CustomSupplyChainItem}></SupplyChain>
+    )
+  }
+`}
+  data={`{
+  "items": [
+    { "name": "Copper", "id": 1, "price": "USD 8500/t", "className": "copper", "width": 180, "height": 70 },
+    { "name": "Zinc", "id": 2, "price": "USD 2500/t", "className": "zinc", "width": 180, "height": 70 },
+    { "name": "Brass", "id": 3, "price": "USD 6500/t", "className": "brass", "width": 180, "height": 70 }
+  ],
+  "connections": [
+    { "sourceId": 1, "targetId": 3 },
+    { "sourceId": 2, "targetId": 3 }
+  ]
+}`}
+  css={`.item-name {
+      margin-top: 10px;
+      margin-left: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+  }
+
+      .item-price {
+          margin-top: 10px;
+          margin-left: 20px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 16px;
+      }
+
+      .item-summary {
+          display: grid;
+          align-items: center;
+          height: 100%;
+          margin-left: 20px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 42px;
+          font-weight: bold;
+      }
+
+      .copper {
+          color: #b87333
+      }
+
+      .zinc {
+          color: #90979a
+      }
+
+      .brass {
+          color: #c0a661
+      }
+  `}
+/>

@@ -1,0 +1,69 @@
+---
+title: Search
+section: 7
+tags: []
+showRightSideBar: false
+---
+import Playground from '../../components/Playground-Supply-Chain.astro'
+import TypeLink from '../../components/TypeLink.astro'
+
+# Search
+
+The <TypeLink type="SupplyChain" /> component introduces a search feature which offers a way to focus on specific elements within the chart. By binding
+a needle object or string, items fitting the search criteria are highlighted.
+
+<Playground
+    code={`
+function SupplyChainWrapper() {
+  const { getSearchHits, zoomTo } = useSupplyChainContext()
+  const [searchQuery, setSearchQuery] = useState('')
+  const onSearchEnter = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      zoomTo(getSearchHits())
+    }
+  }
+  return (
+    <>
+      <SupplyChain
+        data={data}
+        searchNeedle={searchQuery}
+        onSearch={(data: UserSupplyChainItem | UserSupplyChainConnection, searchQuery: string) => {
+          return data.name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false
+        }}
+      ></SupplyChain>
+
+      <input className="search"
+        type={'search'}
+        placeholder="Search..."
+        style={{ position: 'absolute', top: '10px', left: '10px' }}
+        onChange={event => {
+          setSearchQuery(event.target.value)
+        }}
+        onKeyDown={onSearchEnter}
+      ></input>
+    </>
+  )
+}
+
+function App() {
+return (
+  <SupplyChainProvider>
+    <SupplyChainWrapper></SupplyChainWrapper>
+  </SupplyChainProvider>
+)
+}
+
+`}
+    data={`{
+      "items": [
+        { "name": "Copper-Ore", "id": 1, "parentId": 3 },
+        { "name": "Copper-Plate", "id": 2, "parentId": 4 },
+        { "name": "Resource", "id": 3 },
+        { "name": "Material", "id": 4 }
+      ],
+      "connections": [{ "sourceId": 1, "targetId": 2 }]
+    }`}
+/>
+
+To further tailor the search functionality, developers can customize the process by registering a function to the
+<TypeLink type="SupplyChain" member="onSearch"/> event, which returns a boolean value indicating if the search was successful for the given item.
