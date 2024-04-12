@@ -8,19 +8,25 @@ import {
 
 import './index.css'
 
-type MetalItem = UserSupplyChainItem & { price: string }
+type MetalItem = UserSupplyChainItem & { name: string; price: string }
 
 const data = {
   items: [
-    { name: 'Copper', id: 1, price: 'USD 8500/t', className: 'copper', width: 180, height: 70 },
-    { name: 'Zinc', id: 2, price: 'USD 2500/t', className: 'zinc', width: 180, height: 70 },
-    { name: 'Brass', id: 3, price: 'USD 6500/t', className: 'brass', width: 180, height: 70 }
+    { name: 'Copper', id: 1, price: 'USD 8500/t', className: 'copper' },
+    { name: 'Zinc', id: 2, price: 'USD 2500/t', className: 'zinc' },
+    { name: 'Brass', id: 3, price: 'USD 6500/t', className: 'brass' }
   ],
   connections: [
     { sourceId: 1, targetId: 3 },
     { sourceId: 2, targetId: 3 }
   ]
 } satisfies SupplyChainData<MetalItem, UserSupplyChainConnection>
+
+const abbreviations = new Map<string, string>([
+  ['Copper', 'Cu'],
+  ['Zinc', 'Zn'],
+  ['Brass', 'Brass']
+])
 
 export function CustomSupplyChainItem({
   dataItem,
@@ -53,7 +59,7 @@ export function CustomSupplyChainItem({
           <div className="item-price">{customSupplyChainItem.price}</div>
         </div>
       ) : (
-        <div className="item-summary">{customSupplyChainItem.name}</div>
+        <div className="item-summary">{abbreviations.get(customSupplyChainItem.name)}</div>
       )}
     </div>
   )
