@@ -16,7 +16,8 @@ import {
   PartitionCellId,
   PartitionGrid,
   PartitionGridData,
-  PolylineEdgeStyle
+  PolylineEdgeStyle,
+  Rect
 } from 'yfiles'
 import {
   GridPositioningFunction,
@@ -37,7 +38,8 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
       this.workerPromise = null
     }
   }
-  private executor: LayoutExecutorAsync | null = null
+  private executorAsync: LayoutExecutorAsync | null = null
+  private executor: LayoutExecutor | null = null
 
   private hiddenEdgeStyle = new PolylineEdgeStyle({ stroke: 'transparent' })
   private hiddenLabelStyle = new DefaultLabelStyle({
@@ -182,28 +184,53 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
     }
   }
 
-  private createLayoutExecutor(
+  /**
+   * When a layout animation is already running, it might have started
+   * with now obsolete node sizes - stop the running animation and restore
+   * the latest measured node sizes.
+   */
+  private async maybeCancel() {
+    const syncRunning = this.executor && this.executor.running
+    const asyncRunning = this.executorAsync && this.executorAsync.running
+    if (syncRunning || asyncRunning) {
+      const layouts = new Map<INode, Rect>()
+      for (const node of this.graphComponent.graph.nodes) {
+        layouts.set(node, node.layout.toRect())
+      }
+      await this.executor?.stop()
+      await this.executorAsync?.cancel()
+      for (const node of this.graphComponent.graph.nodes) {
+        if (layouts.has(node)) {
+          this.graphComponent.graph.setNodeLayout(node, layouts.get(node)!)
+        }
+      }
+    }
+  }
+
+  private async createLayoutExecutor(
     incremental: boolean,
     incrementalNodes: INode[],
     fixedNode: INode | null = null,
     fitViewport: boolean
   ): Promise<LayoutExecutor> {
-    return Promise.resolve(
-      new LayoutExecutor({
-        graphComponent: this.graphComponent,
-        layout: createLayout(incremental, this.layoutOptions),
-        layoutData: this.createLayoutData(
-          this.graphComponent.graph,
-          incremental,
-          incrementalNodes,
-          fixedNode
-        ),
-        duration: '300ms',
-        animateViewport: fitViewport,
-        updateContentRect: true,
-        targetBoundsInsets: defaultGraphFitInsets
-      })
-    )
+    await this.maybeCancel()
+
+    this.executor = new LayoutExecutor({
+      graphComponent: this.graphComponent,
+      layout: createLayout(incremental, this.layoutOptions),
+      layoutData: this.createLayoutData(
+        this.graphComponent.graph,
+        incremental,
+        incrementalNodes,
+        fixedNode
+      ),
+      duration: '300ms',
+      animateViewport: fitViewport,
+      updateContentRect: true,
+      targetBoundsInsets: defaultGraphFitInsets
+    })
+
+    return Promise.resolve(this.executor)
   }
 
   private async createLayoutExecutorAsync(
@@ -212,9 +239,8 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
     fixedNode: INode | null = null,
     fitViewport: boolean
   ): Promise<LayoutExecutorAsync> {
-    if (this.executor) {
-      await this.executor.cancel()
-    }
+    await this.maybeCancel()
+
     const worker = await this.workerPromise!
 
     // helper function that performs the actual message passing to the web worker
@@ -239,7 +265,7 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
       })
     }
 
-    this.executor = new LayoutExecutorAsync({
+    this.executorAsync = new LayoutExecutorAsync({
       messageHandler: webWorkerMessageHandler,
       graphComponent: this.graphComponent,
       layoutData: this.createLayoutData(
@@ -253,6 +279,6 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
       updateContentRect: true,
       targetBoundsInsets: defaultGraphFitInsets
     })
-    return this.executor
+    return this.executorAsync
   }
 }
