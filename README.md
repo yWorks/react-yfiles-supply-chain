@@ -1,5 +1,7 @@
 # yFiles React Supply Chain Component
 
+[![NPM version](https://img.shields.io/npm/v/@yworks/react-yfiles-supply-chain?style=flat)](https://www.npmjs.org/package/@yworks/react-yfiles-supply-chain)
+
 ![Welcome playground](https://raw.githubusercontent.com/yWorks/react-yfiles-supply-chain/main/assets/react-supply-chain-hero.png)
 
 Traditionally associated with manufacturing processes, supply chain management is equally important for the provision
