@@ -160,6 +160,19 @@ the [playground](https://docs.yworks.com/react-yfiles-supply-chain/features/buil
 The context menu can be populated with custom components and actions. Try it in
 the [playground](https://docs.yworks.com/react-yfiles-supply-chain/features/context-menu).
 
+## Licensing
+
+All owners of a valid software license for [yFiles for HTML](https://www.yworks.com/products/yfiles-for-html)
+are allowed to use these sources as the basis for their own [yFiles for HTML](https://www.yworks.com/products/yfiles-for-html)
+powered applications.
+
+Use of such programs is governed by the rights and conditions as set out in the
+[yFiles for HTML license agreement](https://www.yworks.com/products/yfiles-for-html/sla).
+
+You can evaluate yFiles for 60 days free of charge on [my.yworks.com](https://my.yworks.com/signup?product=YFILES_HTML_EVAL).
+
+For more information, see the `LICENSE` file.
+
 ## Learn More
 
 Explore the possibilities of visualizing supply chains and other diagrams with yFiles - the powerful and versatile
