@@ -278,14 +278,13 @@ function compareData<T>(oldData: T[], newData: T[]): T[] {
 export function convertToDefaultLabelStyle(
   connectionLabel: SimpleConnectionLabel
 ): DefaultLabelStyle {
-  const style = new DefaultLabelStyle({
+  return new DefaultLabelStyle({
     textFill: 'currentColor',
-    backgroundFill: 'currentColor',
+    backgroundFill: '#ffffff',
     shape: connectionLabel.labelShape ?? 'round-rectangle',
     cssClass: `yfiles-react-connection-label ${connectionLabel.className ?? ''}`,
     insets: 5
   })
-  return style
 }
 
 function getConnectionLabelText<TSupplyChainConnection extends SupplyChainConnection>(
