@@ -1,6 +1,6 @@
 {
   "name": "@yworks/react-yfiles-supply-chain",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "yFiles for HTML team @ yWorks GmbH",
     "email": "yfileshtml@yworks.com"
@@ -55,7 +55,7 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@yworks/react-yfiles-core": "^1.1.0"
+    "@yworks/react-yfiles-core": "^2.0.0"
   },
   "files": [
     "LICENSE",

@@ -407,6 +407,26 @@ function checkStylesLoaded(root: HTMLElement | null) {
   dummy.remove()
 }
 
+const licenseErrorCodeSample = `import {SupplyChain, registerLicense} from '@yworks/react-yfiles-supply-chain' 
+import '@yworks/react-yfiles-supply-chain/dist/index.css'
+import yFilesLicense from './license.json'
+
+function App() {
+  registerLicense(yFilesLicense)
+            
+  const data = {
+    items: [
+      { name: 'Copper-Ore', id: 1, parentId: 3 },
+      { name: 'Copper-Plate', id: 2, parentId: 4 },
+      { name: 'Resource', id: 3 },
+      { name: 'Material', id: 4 }
+    ],
+    connections: [{ sourceId: 1, targetId: 2 }]
+  }
+
+  return <SupplyChain data={data}></SupplyChain>
+}`
+
 /**
  * The SupplyChain component visualizes the given data as a supply chain chart.
  * All data items have to be included in the [data]{@link SupplyChainProps.data}.
@@ -425,7 +445,12 @@ export function SupplyChain<
   TNeedle = string
 >(props: SupplyChainProps<TSupplyChainItem, TSupplyChainConnection, TNeedle> & PropsWithChildren) {
   if (!checkLicense()) {
-    return <LicenseError />
+    return (
+      <LicenseError
+        componentName={'yFiles React Supply Chain Component'}
+        codeSample={licenseErrorCodeSample}
+      />
+    )
   }
 
   const isWrapped = useSupplyChainContextInternal()
