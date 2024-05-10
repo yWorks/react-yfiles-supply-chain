@@ -45,7 +45,7 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "yfiles": "^26.0.3"
+    "yfiles": "^26.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.39.1",
