@@ -15,71 +15,107 @@ user experience and facilitates an intuitive exploration of complex manufacturin
 
 ## Getting Started
 
-1. **Installation:**
-   Install the component via npm by running the following command in your project directory:
+### Prerequisites
+
+To use the Supply Chain component, [yFiles for HTML](https://www.yworks.com/products/yfiles-for-html) is required.
+You can evaluate yFiles for 60 days free of charge on [my.yworks.com](https://my.yworks.com/signup?product=YFILES_HTML_EVAL).
+See [Licensing](https://docs.yworks.com/react-yfiles-supply-chain/introduction/licensing) for more information on this topic.
+
+You can learn how to work with the yFiles npm module in our [Developer’s Guide](https://docs.yworks.com/yfileshtml/#/dguide/yfiles_npm_module). A convenient way of getting access to yFiles is to use the [yFiles Dev Suite](https://www.npmjs.com/package/yfiles-dev-suite).
+
+
+### Project Setup
+
+1. **Installation**
+
+   In addition to yFiles, the Supply Chain component requires React to be installed in your project.
+   If you want to start your project from scratch, we recommend using vite:
+   ```
+   npm create vite@latest my-supply-chain-app -- --template react-ts
+   ```
+
+   Add the yFiles dependency:
+   ```
+   npm install <yFiles package path>/lib-dev/yfiles-26.0.0+dev.tgz
+   ```
+
+   <details>
+
+   <summary>Sample <code>package.json</code> dependencies</summary>
+   The resulting package.json dependencies should resemble the following:
+
+   ```json
+      "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "yfiles": "./lib-dev/yfiles-26.0.0.tgz"
+     }
+   ```
+   </details>
+
+   Now, the component itself can be installed:
    ```bash
    npm install @yworks/react-yfiles-supply-chain
    ```
 
-   The supply chain module has certain peer dependencies that must be installed within your project. Since it is a React
-   module, `react` and `react-dom` dependencies are needed.
+2. **License**
 
-   Additionally, the component relies on the [yFiles](https://www.yworks.com/yfiles-overview) library which is not
-   available on the public npm registry. Instructions on how to work with the yFiles npm module in
-   our [Developer's Guide](https://docs.yworks.com/yfileshtml/#/dguide/yfiles_npm_module).
+   Be sure to invoke the `registerLicense` function before using the Supply Chain React component.
+   When evaluating yFiles, the license JSON file is found in the `lib/` folder of the yFiles for HTML evaluation package.
+   For licensed users, the license data is provided separately.
 
-   Ensure that the dependencies in the `package.json` file resemble the following:
-   ```json
-   {
-     ...
-     "dependencies": {
-       "@yworks/react-yfiles-supply-chain": "^1.0.0",
-       "react": "^18.2.0",
-       "react-dom": "^18.2.0",
-       "yfiles": "<yFiles package path>/lib/yfiles-26.0.0.tgz",
-       ...
-     }
-   }
+   <details>
+
+   <summary>License registration</summary>
+
+   Import or paste your license data and register the license, e.g. in `App.tsx`:
+
+   ```js
+   import yFilesLicense from './license.json'
+
+   registerLicense(yFilesLicense)
+   ```
+   </details>
+
+3. **Stylesheet**
+
+   Make sure to import the CSS stylesheet as well:
+
+   ```js
+   import '@yworks/react-yfiles-supply-chain/dist/index.css'
    ```
 
-2. **License:**
-   Before using the component, a valid [yFiles for HTML](https://www.yworks.com/products/yfiles-for-html) version is
-   required. You can evaluate yFiles for 60 days free of charge
-   on [my.yworks.com](https://my.yworks.com/signup?product=YFILES_HTML_EVAL).
-   Be sure to invoke the `registerLicense` function to furnish the license file before utilizing the supply chain
-   component.
+4. **Usage**
 
-3. **Usage:**
-   Utilize the component in your application.
-   Make sure to import the CSS stylesheet 'index.css' as the component requires it for correct functionality.
+   You are now all set to utilize the Supply Chain component with your data!
+   See a basic example `App.tsx` below:
 
    ```tsx
    import {
      registerLicense,
      SupplyChain,
-     SupplyChainData,
-     UserSupplyChainItem,
-     UserSupplyChainConnection
-   } from '@yworks/react-yfiles-supply-chain'
-   import '@yworks/react-yfiles-supply-chain/dist/index.css' 
-   import yFilesLicense from './license.json'
+   } from '@yworks/react-yfiles-supply-chain'             
    
-   function App() {
-     registerLicense(yFilesLicense)
-      
-     const data = {
-       items: [
-         { name: 'Copper-Ore', id: 1, parentId: 3 },
-         { name: 'Copper-Plate', id: 2, parentId: 4 },
-         { name: 'Resource', id: 3 },
-         { name: 'Material', id: 4 }
-       ],
-       connections: [{ sourceId: 1, targetId: 2 }]
-     } satisfies SupplyChainData<UserSupplyChainItem, UserSupplyChainConnection>
-     
-     return  <SupplyChain data={data}></SupplyChain>
+   import '@yworks/react-yfiles-supply-chain/dist/index.css'   
+   
+   import yFilesLicense from './license.json'
+
+   registerLicense(yFilesLicense)
+
+   const data = {
+     items: [
+       { name: 'Copper-Ore', id: 1, parentId: 3 },
+       { name: 'Copper-Plate', id: 2, parentId: 4 },
+       { name: 'Resource', id: 3 },
+       { name: 'Material', id: 4 }
+     ],
+     connections: [{ sourceId: 1, targetId: 2 }]
    }
 
+   function App() {
+     return <SupplyChain data={data}></SupplyChain>
+   }
+   
    export default App
    ```
 
@@ -179,6 +215,9 @@ Explore the possibilities of visualizing supply chains and other diagrams with y
 diagramming SDK. For
 further information about [yFiles for HTML](https://www.yworks.com/yfiles-overview) and our company, please
 visit [yWorks.com](https://www.yworks.com).
+
+If you are exploring a different use case and require another React component,
+please take a look at the available [React components](https://www.yworks.com/yfiles-react-components) powered by yFiles!
 
 For support or feedback, please reach out to [our support team](https://www.yworks.com/contact) or open
 an [issue on GitHub](https://github.com/yWorks/react-yfiles-supply-chain/issues). Happy diagramming!

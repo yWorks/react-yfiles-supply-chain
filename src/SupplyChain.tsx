@@ -28,6 +28,7 @@ import {
 } from './core/input'
 import {
   checkLicense,
+  checkStylesheetLoaded,
   ContextMenu,
   ContextMenuItemProvider,
   EdgeStyle as ConnectionStyle,
@@ -390,22 +391,25 @@ export interface SupplyChainProps<
   layoutWorker?: Worker
 }
 
-function checkStylesLoaded(root: HTMLElement | null) {
-  const dummy = document.createElement('div')
-  dummy.id = 'yfiles-react-stylesheet-detection'
-  const rootNode = root?.getRootNode() ?? document
-  const parent = rootNode === document ? document.body : rootNode
-  parent.appendChild(dummy)
-  const computedStyle = getComputedStyle(dummy)
-  const hasStyle = computedStyle.fontSize === '1px'
+const licenseErrorCodeSample = `import {SupplyChain, registerLicense} from '@yworks/react-yfiles-supply-chain' 
+import '@yworks/react-yfiles-supply-chain/dist/index.css'
+import yFilesLicense from './license.json'
 
-  if (!hasStyle) {
-    console.warn(
-      "Stylesheet not loaded! Please import 'dist/index.css' from the @yworks/react-yfiles-supply-chain package."
-    )
+function App() {
+  registerLicense(yFilesLicense)
+            
+  const data = {
+    items: [
+      { name: 'Copper-Ore', id: 1, parentId: 3 },
+      { name: 'Copper-Plate', id: 2, parentId: 4 },
+      { name: 'Resource', id: 3 },
+      { name: 'Material', id: 4 }
+    ],
+    connections: [{ sourceId: 1, targetId: 2 }]
   }
-  dummy.remove()
-}
+
+  return <SupplyChain data={data}></SupplyChain>
+}`
 
 /**
  * The SupplyChain component visualizes the given data as a supply chain chart.
@@ -425,7 +429,12 @@ export function SupplyChain<
   TNeedle = string
 >(props: SupplyChainProps<TSupplyChainItem, TSupplyChainConnection, TNeedle> & PropsWithChildren) {
   if (!checkLicense()) {
-    return <LicenseError />
+    return (
+      <LicenseError
+        componentName={'yFiles React Supply Chain Component'}
+        codeSample={licenseErrorCodeSample}
+      />
+    )
   }
 
   const isWrapped = useSupplyChainContextInternal()
@@ -473,7 +482,7 @@ const SupplyChainCore = withGraphComponent(
     const graphComponent = supplyChainModel.graphComponent
 
     useEffect(() => {
-      checkStylesLoaded(graphComponent.div)
+      checkStylesheetLoaded(graphComponent.div, 'react-yfiles-supply-chain')
     }, [])
 
     useEffect(() => {

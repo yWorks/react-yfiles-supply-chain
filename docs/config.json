@@ -1,3 +1,4 @@
 {
-  "mainComponents": ["SupplyChain", "SupplyChainProvider"]
+  "mainComponents": ["SupplyChain", "SupplyChainProvider"],
+  "componentPropsDocText": "data={data}"
 }
