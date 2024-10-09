@@ -8,6 +8,7 @@ import ConnectionStyling from '../examples/connection-styling'
 import GraphSearch from '../examples/search'
 import SupplyChainProvider from '../examples/supply-chain-provider'
 import Export from '../examples/export'
+import SwitchData from '../examples/switch-data'
 
 export interface IRoute {
   title: string
@@ -76,6 +77,12 @@ const routes: IRoute[] = [
     description: 'An example demonstrating the export to an image and printing.',
     path: 'graph-export',
     component: Export
+  },
+  {
+    title: 'Switch Data',
+    description: 'Switching to different input data with partially shared ids',
+    path: 'switch-data',
+    component: SwitchData
   }
 ]
 

@@ -1,0 +1,7 @@
+{
+  "items": [
+    { "name": "Parent1", "id": 10 },
+    { "name": "Natural Resource", "id": 0, "parentId": 10 }
+  ],
+  "connections": []
+}
