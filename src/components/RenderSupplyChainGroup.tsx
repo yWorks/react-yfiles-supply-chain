@@ -102,6 +102,7 @@ export function RenderSupplyChainGroup<TSupplyChainItem extends SupplyChainItem>
           <div
             className="yfiles-react-group__header"
             onClick={() => supplyChainContext.toggleExpansionState(dataItem)}
+            onPointerDown={(event) => event.preventDefault()}
           >
             <button className="yfiles-react-group__icon-button">
               <i className="yfiles-react-group__icon yfiles-react-group__collapse-icon"></i>

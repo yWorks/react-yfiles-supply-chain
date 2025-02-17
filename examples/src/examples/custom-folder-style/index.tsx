@@ -37,13 +37,19 @@ function RenderItem(props: RenderGroupProps<UserSupplyChainItem>) {
       }}
     >
       {isFolderNode && (
-        <button onClick={() => supplyChainContext.toggleExpansionState(dataItem)}>
+        <button
+          onClick={() => supplyChainContext.toggleExpansionState(dataItem)}
+          onPointerDown={event => event.preventDefault()}
+        >
           Expand {dataItem.name}
         </button>
       )}
       {!isFolderNode && (
         <div style={{ display: 'flex', justifyItems: 'flex-start', alignItems: 'center' }}>
-          <button onClick={() => supplyChainContext.toggleExpansionState(dataItem)}>
+          <button
+            onClick={() => supplyChainContext.toggleExpansionState(dataItem)}
+            onPointerDown={event => event.preventDefault()}
+          >
             Collapse {dataItem.name}
           </button>
         </div>

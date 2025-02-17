@@ -1,18 +1,19 @@
 import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
 import { useGraphComponent, withGraphComponentProvider } from '@yworks/react-yfiles-core'
 import { SupplyChainModel } from './SupplyChainModel'
-import { ContentRectViewportLimiter } from './core/ContentRectViewportLimiter.ts'
 import {
-  DefaultFolderNodeConverter,
-  DefaultGraph,
   FilteredGraphWrapper,
+  FolderNodeConverter,
   FoldingManager,
+  Graph,
   IEdge,
-  INode
-} from 'yfiles'
+  INode,
+  ViewportLimitingPolicy
+} from '@yfiles/yfiles'
 import {
   componentBackgroundColor,
   defaultFolderNodeSize,
+  defaultGraphFitInsets,
   maximumZoom,
   minimumZoom
 } from './core/defaults.ts'
@@ -120,7 +121,7 @@ export const SupplyChainProvider = withGraphComponentProvider(({ children }: Pro
 
   const SupplyChain = useMemo(() => {
     const hiddenItems = new Set<INode | IEdge>()
-    const fullGraph = new DefaultGraph()
+    const fullGraph = new Graph()
     const filteredGraph = new FilteredGraphWrapper(
       fullGraph,
       node => !hiddenItems.has(node),
@@ -129,13 +130,15 @@ export const SupplyChainProvider = withGraphComponentProvider(({ children }: Pro
 
     const foldingManager = new FoldingManager(filteredGraph)
     graphComponent.graph = foldingManager.createFoldingView().graph
-    ;(foldingManager.folderNodeConverter as DefaultFolderNodeConverter).folderNodeSize =
+    ;(foldingManager.folderNodeConverter as FolderNodeConverter).folderNodeDefaults.size =
       defaultFolderNodeSize
     foldingManager.foldingEdgeConverter = new StylingFoldingEdgeConverter()
 
-    graphComponent.div.style.backgroundColor = componentBackgroundColor
+    graphComponent.htmlElement.style.backgroundColor = componentBackgroundColor
 
-    graphComponent.viewportLimiter = new ContentRectViewportLimiter()
+    graphComponent.viewportLimiter.policy = ViewportLimitingPolicy.WITHIN_MARGINS
+    graphComponent.viewportLimiter.viewportContentMargins = defaultGraphFitInsets.getEnlarged(20)
+
     graphComponent.maximumZoom = maximumZoom
     graphComponent.minimumZoom = minimumZoom
 

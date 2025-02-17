@@ -1,14 +1,13 @@
 import {
   type GraphComponent,
   HtmlCanvasVisual,
-  type ICanvasObject,
-  ICanvasObjectDescriptor,
   IEdge,
   INode,
   type IRenderContext,
+  type IRenderTreeElement,
   IVisualCreator,
   type Visual
-} from 'yfiles'
+} from '@yfiles/yfiles'
 
 const heatScale = 0.5
 
@@ -29,7 +28,7 @@ export class HeatmapBackground extends HtmlCanvasVisual {
   /**
    * Renders the heat map on a canvas.
    */
-  paint(renderContext: IRenderContext, ctx: CanvasRenderingContext2D): void {
+  render(renderContext: IRenderContext, ctx: CanvasRenderingContext2D): void {
     ctx.save()
     ctx.setTransform(1, 0, 0, 1, 0, 0)
 
@@ -63,8 +62,8 @@ export class HeatmapBackground extends HtmlCanvasVisual {
 
     let lastFillStyleHeat = -1
     for (const node of (renderContext.canvasComponent as GraphComponent)!.graph.nodes) {
-      const topLeft = renderContext.toViewCoordinates(node.layout.topLeft)
-      const bottomRight = renderContext.toViewCoordinates(node.layout.bottomRight)
+      const topLeft = renderContext.worldToViewCoordinates(node.layout.topLeft)
+      const bottomRight = renderContext.worldToViewCoordinates(node.layout.bottomRight)
       const heat = this.getHeat(node)
       if (heat > 0) {
         if (heat !== lastFillStyleHeat) {
@@ -97,10 +96,10 @@ export class HeatmapBackground extends HtmlCanvasVisual {
         backBufferContext.beginPath()
         const cursor = path.createCursor()
         if (cursor.moveNext()) {
-          const point = renderContext.toViewCoordinates(cursor.currentEndPoint)
+          const point = renderContext.worldToViewCoordinates(cursor.currentEndPoint)
           backBufferContext.moveTo(point.x, point.y)
           while (cursor.moveNext()) {
-            const point = renderContext.toViewCoordinates(cursor.currentEndPoint)
+            const point = renderContext.worldToViewCoordinates(cursor.currentEndPoint)
             backBufferContext.lineTo(point.x, point.y)
           }
           backBufferContext.stroke()
@@ -125,11 +124,11 @@ let installedDivElement: HTMLDivElement | null = null
 export function addHeatmap(
   graphComponent: GraphComponent,
   getHeat: (t: INode | IEdge) => number
-): ICanvasObject {
-  if (!graphComponent.div.parentElement) {
+): IRenderTreeElement {
+  if (!graphComponent.htmlElement.parentElement) {
     throw new Error('Cannot add heatmap for unmounted component')
   }
-  const heatmapParent = graphComponent.div.parentElement
+  const heatmapParent = graphComponent.htmlElement.parentElement
 
   if (!installedDivElement || !heatmapParent.contains(installedDivElement)) {
     installedDivElement = document.createElement('div')
@@ -164,7 +163,8 @@ export function addHeatmap(
 `
     heatmapParent.appendChild(installedDivElement)
   }
-  return graphComponent.backgroundGroup.addChild(
+  return graphComponent.renderTree.backgroundGroup.renderTree.createElement(
+    graphComponent.renderTree.backgroundGroup,
     IVisualCreator.create({
       createVisual(): Visual {
         return new HeatmapBackground(getHeat)
@@ -172,7 +172,6 @@ export function addHeatmap(
       updateVisual(context: IRenderContext, oldVisual: Visual | null): Visual {
         return oldVisual!
       }
-    }),
-    ICanvasObjectDescriptor.ALWAYS_DIRTY_INSTANCE
+    })
   )
 }
