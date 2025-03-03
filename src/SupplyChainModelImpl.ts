@@ -15,14 +15,14 @@ import {
 import {
   GraphComponent,
   GroupingSupport,
-  ICommand,
+  Command,
   IEdge,
   INode,
   Insets,
   MutableRectangle,
   Neighborhood,
   TraversalDirection
-} from 'yfiles'
+} from '@yfiles/yfiles'
 
 import {
   exportImageAndSave,
@@ -94,7 +94,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     const genealogy = new Set<INode>()
     resultNodes.forEach(node => {
       genealogy.add(node)
-      masterGraphGroupingSupport.getPathToRoot(node).forEach(parent => genealogy.add(parent))
+      masterGraphGroupingSupport.getAncestors(node).forEach(parent => genealogy.add(parent))
     })
 
     // hide any node that is not part of the genealogy
@@ -118,7 +118,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
 
     layoutSupport!.runLayout(false).then(() => {
       neighborhoodHighlightManager.activateHighlights()
-      graphComponent.fitGraphBounds(defaultGraphFitInsets, true)
+      void graphComponent.fitGraphBounds(defaultGraphFitInsets, true)
     })
   }
 
@@ -184,7 +184,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     return layoutSupport.runLayout(incremental ?? false, incrementalNodes, fixedNode, fitViewport)
   }
 
-  function collapseItem(item: SupplyChainItem) {
+ async function collapseItem(item: SupplyChainItem) {
     const viewGraph = graphComponent.graph
     const foldingView = viewGraph.foldingView!
     const masterGraph = foldingView.manager.masterGraph
@@ -214,9 +214,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
         }
       }
 
-      applyLayout(true, [item], item).then(() => {
-        graphComponent.viewportLimiter.bounds = graphComponent.contentRect
-      })
+      void applyLayout(true, [item], item)
 
       neighborhoodHighlightManager.activateHighlights()
     }
@@ -258,9 +256,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
       }
 
       const incrementalItems = getChildren(item).concat([item])
-      applyLayout(true, incrementalItems, item).then(() => {
-        graphComponent.viewportLimiter.bounds = graphComponent.contentRect
-      })
+      void applyLayout(true, incrementalItems, item)
 
       neighborhoodHighlightManager.activateHighlights()
     }
@@ -279,9 +275,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
 
   function canClearConnectedItemsHighlight() {
     const neighborhoodIndicatorManager = getNeighborhoodIndicatorManager(graphComponent)
-    return neighborhoodIndicatorManager.selectionModel
-      ? neighborhoodIndicatorManager.selectionModel.size > 0
-      : false
+    return neighborhoodIndicatorManager.items.size > 0
   }
 
   function clearConnectedItemsHighlight() {
@@ -300,7 +294,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
 
     layoutSupport!.runLayout(false, graphComponent.graph.nodes.toArray()).then(() => {
       neighborhoodHighlightManager.activateHighlights()
-      graphComponent.fitGraphBounds(defaultGraphFitInsets, true)
+      void graphComponent.fitGraphBounds(defaultGraphFitInsets, true)
     })
   }
 
@@ -319,7 +313,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
 
     // collapse all levels
     groupingSupport.getDescendantsBottomUp(null).forEach(node => {
-      if (masterGraph.isGroupNode(node) && groupingSupport.getPathToRoot(node).size >= level) {
+      if (masterGraph.isGroupNode(node) && groupingSupport.getAncestors(node).size >= level) {
         foldingView.collapse(node)
       }
     })
@@ -328,7 +322,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
 
     // expand to provided level
     groupingSupport.getDescendants(null).forEach(node => {
-      if (masterGraph.isGroupNode(node) && groupingSupport.getPathToRoot(node).size < level) {
+      if (masterGraph.isGroupNode(node) && groupingSupport.getAncestors(node).size < level) {
         const viewNode = foldingView.getViewItem(node)
         if (viewNode) {
           expandedNodes.push(viewNode)
@@ -339,24 +333,24 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     })
 
     // Do a full layout
-    layoutSupport!.runLayout(false, expandedNodes, null, true)
+    void layoutSupport!.runLayout(false, expandedNodes, null, true)
     neighborhoodHighlightManager.activateHighlights()
   }
 
   function zoomIn() {
-    ICommand.INCREASE_ZOOM.execute(null, graphComponent)
+    graphComponent.executeCommand(Command.INCREASE_ZOOM,null)
   }
 
   function zoomOut() {
-    ICommand.DECREASE_ZOOM.execute(null, graphComponent)
+    graphComponent.executeCommand(Command.DECREASE_ZOOM,null)
   }
 
   function fitContent(insets: number = 0) {
-    graphComponent.fitGraphBounds(new Insets(insets), true)
+    void graphComponent.fitGraphBounds(new Insets(insets), true)
   }
 
   function zoomToOriginal() {
-    ICommand.ZOOM.execute(1.0, graphComponent)
+    graphComponent.executeCommand(Command.ZOOM,1.0)
   }
 
   async function exportToSvg(exportSettings: ExportSettings) {
@@ -406,7 +400,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
   function toggleExpansionState(item: SupplyChainItem) {
     const node = getNode(item, graphComponent.graph)
     if (node) {
-      ICommand.TOGGLE_EXPANSION_STATE.execute(node, graphComponent)
+      graphComponent.executeCommand(Command.TOGGLE_EXPANSION_STATE, node)
     }
   }
 
@@ -490,10 +484,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
       gcSize.width / enlargedTargetBounds.width,
       gcSize.height / enlargedTargetBounds.height
     )
-    graphComponent.zoomToAnimated(
-      enlargedTargetBounds.center,
-      Math.max(newZoom, graphComponent.zoom)
-    )
+    void graphComponent.zoomToAnimated(Math.max(newZoom, graphComponent.zoom), enlargedTargetBounds.center)
   }
 
   return {

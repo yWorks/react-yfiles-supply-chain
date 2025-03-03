@@ -1,18 +1,18 @@
 import {
-  FoldingEdgeState,
+  FoldingEdgeState, FoldingSynchronizationOptions,
   FreeEdgeLabelModel,
   IEdge,
   IFoldingView,
-  IList,
+  IListEnumerable,
   MergingFoldingEdgeConverter,
   SimpleLabel
-} from 'yfiles'
+} from '@yfiles/yfiles'
 import {
   ConnectionStyleProvider,
   FoldingConnection,
+  SimpleConnectionLabel,
   SupplyChainBaseItem,
-  SupplyChainConnection,
-  SimpleConnectionLabel
+  SupplyChainConnection
 } from '../SupplyChain.tsx'
 import { convertToPolylineEdgeStyle } from '@yworks/react-yfiles-core'
 import { convertToDefaultLabelStyle } from './data-loading.ts'
@@ -30,6 +30,12 @@ export default class StylingFoldingEdgeConverter<
   TSupplyChainItem extends SupplyChainBaseItem,
   TSupplyChainConnection extends SupplyChainConnection
 > extends MergingFoldingEdgeConverter {
+
+  constructor() {
+    super()
+    this.foldingEdgeDefaults.updateMasterOptions = FoldingSynchronizationOptions.NONE
+  }
+
   private _connectionStyleProvider:
     | ConnectionStyleProvider<TSupplyChainItem, TSupplyChainConnection>
     | undefined = undefined
@@ -40,6 +46,7 @@ export default class StylingFoldingEdgeConverter<
   }
 
   private _connectionLabelProvider: LabelProvider<TSupplyChainConnection> | undefined = undefined
+
   set connectionLabelProvider(value: LabelProvider<TSupplyChainConnection> | undefined) {
     this._connectionLabelProvider = value
   }
@@ -48,7 +55,7 @@ export default class StylingFoldingEdgeConverter<
     state: FoldingEdgeState,
     foldingView: IFoldingView,
     foldingEdge: IEdge,
-    masterEdges: IList<IEdge>
+    masterEdges: IListEnumerable<IEdge>
   ) {
     super.initializeFoldingEdgeState(state, foldingView, foldingEdge, masterEdges)
     this.updateFoldingEdgeState(state, foldingView, foldingEdge, masterEdges)
@@ -58,7 +65,7 @@ export default class StylingFoldingEdgeConverter<
     state: FoldingEdgeState,
     foldingView: IFoldingView,
     foldingEdge: IEdge,
-    masterEdges: IList<IEdge>
+    masterEdges: IListEnumerable<IEdge>
   ) {
     state.clearLabels()
 
@@ -97,7 +104,7 @@ export default class StylingFoldingEdgeConverter<
 
         state.addLabel(
           connectionLabel.text,
-          FreeEdgeLabelModel.INSTANCE.createDefaultParameter(),
+          new FreeEdgeLabelModel().createParameter(),
           labelStyle,
           preferredSize,
           null

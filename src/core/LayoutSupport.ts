@@ -1,24 +1,25 @@
 import {
-  DefaultLabelStyle,
-  FixNodeLayoutData,
   type GraphComponent,
-  HierarchicLayoutData,
+  HierarchicalLayoutData,
   IEdge,
   IEdgeStyle,
   IGraph,
   ILabel,
   ILabelStyle,
   INode,
+  LabelStyle,
+  LayoutAnchoringPolicy,
+  LayoutAnchoringStageData,
   LayoutData,
   LayoutExecutor,
   LayoutExecutorAsync,
+  LayoutGrid,
+  LayoutGridCellDescriptor,
+  LayoutGridData,
   Mapper,
-  PartitionCellId,
-  PartitionGrid,
-  PartitionGridData,
   PolylineEdgeStyle,
   Rect
-} from 'yfiles'
+} from '@yfiles/yfiles'
 import {
   GridPositioningFunction,
   SupplyChainItem,
@@ -31,6 +32,7 @@ import { createLayout } from './WebWorkerSupport.ts'
 
 export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
   private workerPromise: Promise<Worker> | null = null
+
   set layoutWorker(worker: Worker | undefined) {
     if (worker) {
       this.workerPromise = registerWebWorker(worker)
@@ -38,11 +40,12 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
       this.workerPromise = null
     }
   }
+
   private executorAsync: LayoutExecutorAsync | null = null
   private executor: LayoutExecutor | null = null
 
   private hiddenEdgeStyle = new PolylineEdgeStyle({ stroke: 'transparent' })
-  private hiddenLabelStyle = new DefaultLabelStyle({
+  private hiddenLabelStyle = new LabelStyle({
     textFill: 'transparent',
     backgroundFill: 'transparent'
   })
@@ -62,13 +65,8 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
     let layoutData: LayoutData | null = null
 
     if (incremental) {
-      layoutData = new HierarchicLayoutData({
-        incrementalHints: (item, factory) =>
-          item instanceof INode && incrementalNodes.includes(item)
-            ? graph.isGroupNode(item)
-              ? factory.createIncrementalGroupHint(item)
-              : factory.createLayerIncrementallyHint(item)
-            : null
+      layoutData = new HierarchicalLayoutData({
+        incrementalNodes: item => item instanceof INode && incrementalNodes.includes(item)
       })
     }
 
@@ -90,30 +88,31 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
         maxColumn = Math.max(gridPosition.column, maxColumn)
       })
 
-      const grid = new PartitionGrid(maxRow + 1, maxColumn + 1)
-      const cellIds = new Mapper<INode, PartitionCellId>()
+      const grid = new LayoutGrid(maxRow + 1, maxColumn + 1)
+      const cellIds = new Mapper<INode, LayoutGridCellDescriptor>()
 
       graph.nodes.forEach(node => {
         const gridPosition = gridPositionMap.get(node)
         if (gridPosition) {
-          cellIds.set(node, grid.createCellId(gridPosition.row, gridPosition.column))
+          cellIds.set(node, grid.createCellDescriptor(gridPosition.row, gridPosition.column))
         }
       })
 
       if (!layoutData) {
-        layoutData = new HierarchicLayoutData()
+        layoutData = new HierarchicalLayoutData()
       }
 
-      ;(layoutData as HierarchicLayoutData).partitionGridData = new PartitionGridData({
+      ;(layoutData as HierarchicalLayoutData).layoutGridData = new LayoutGridData({
         grid,
-        cellIds
+        layoutGridCellDescriptors: cellIds
       })
     }
 
     if (fixedNode) {
-      const fixNodeLayoutData = new FixNodeLayoutData()
-      fixNodeLayoutData.fixedNodes.item = fixedNode
-      layoutData = layoutData!.combineWith(fixNodeLayoutData)
+      const layoutAnchoringStageData = new LayoutAnchoringStageData()
+      layoutAnchoringStageData.nodeAnchoringPolicies = node =>
+        node === fixedNode ? LayoutAnchoringPolicy.UPPER_LEFT : LayoutAnchoringPolicy.NONE
+      layoutData = layoutData!.combineWith(layoutAnchoringStageData)
     }
 
     return layoutData
@@ -162,7 +161,6 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
 
     try {
       await executor.start()
-      this.graphComponent.viewportLimiter.bounds = this.graphComponent.contentRect
     } catch (e) {
       if ((e as Record<string, unknown>).name === 'AlgorithmAbortedError') {
         console.error('Layout calculation was aborted because maximum duration time was exceeded.')
@@ -224,10 +222,10 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
         incrementalNodes,
         fixedNode
       ),
-      duration: '300ms',
+      animationDuration: '1s',
       animateViewport: fitViewport,
-      updateContentRect: true,
-      targetBoundsInsets: defaultGraphFitInsets
+      updateContentBounds: true,
+      targetBoundsPadding: defaultGraphFitInsets
     })
 
     return Promise.resolve(this.executor)
@@ -274,10 +272,10 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
         incrementalNodes,
         fixedNode
       ),
-      duration: '300ms',
+      animationDuration: '300ms',
       animateViewport: fitViewport,
-      updateContentRect: true,
-      targetBoundsInsets: defaultGraphFitInsets
+      updateContentBounds: true,
+      targetBoundsPadding: defaultGraphFitInsets
     })
     return this.executorAsync
   }

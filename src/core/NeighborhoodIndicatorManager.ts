@@ -1,59 +1,62 @@
 import {
   AdjacencyTypes,
   Arrow,
-  Class,
+  EdgeStyleIndicatorRenderer,
   GraphComponent,
-  GraphHighlightIndicatorManager,
-  IContextLookupChainLink,
+  HighlightIndicatorManager,
   IEdge,
   ILookupDecorator,
   IModelItem,
-  IndicatorEdgeStyleDecorator,
-  IndicatorNodeStyleDecorator,
   INode,
+  IObjectRenderer,
+  LookupDecorator,
   Neighborhood,
+  NodeStyleIndicatorRenderer,
   PolylineEdgeStyle,
   ShapeNodeStyle,
   TraversalDirection
-} from 'yfiles'
+} from '@yfiles/yfiles'
 
 const NEIGHBORHOOD_HIGHLIGHT_COLOR = '#2979FF'
 
-export class NeighborhoodIndicatorManager extends GraphHighlightIndicatorManager {
+export class NeighborhoodIndicatorManager extends HighlightIndicatorManager<any> {
   // remember the neighborhood's master items to restore the highlighting after collapse/expand
   private neighborhoodCollection: Set<IModelItem> = new Set<IModelItem>()
 
   constructor(private readonly graphComponent: GraphComponent) {
-    super({
-      canvasComponent: graphComponent
-    })
+    super()
+  }
 
-    this.nodeStyle = new IndicatorNodeStyleDecorator({
-      wrapped: new ShapeNodeStyle({
-        shape: 'round-rectangle',
-        stroke: `3px ${NEIGHBORHOOD_HIGHLIGHT_COLOR}`,
-        fill: 'none'
-      }),
-      // the padding from the actual node to its highlight visualization
-      padding: 2
-    })
 
-    this.edgeStyle = new IndicatorEdgeStyleDecorator({
-      wrapped: new PolylineEdgeStyle({
-        targetArrow: new Arrow({
-          type: 'triangle',
-          stroke: `2px ${NEIGHBORHOOD_HIGHLIGHT_COLOR}`,
-          fill: NEIGHBORHOOD_HIGHLIGHT_COLOR
-        }),
-        stroke: `3px ${NEIGHBORHOOD_HIGHLIGHT_COLOR}`
-      })
-    })
+  protected getRenderer(item: any): IObjectRenderer<any> | null {
+    return item instanceof INode
+      ? new NodeStyleIndicatorRenderer({
+          nodeStyle: new ShapeNodeStyle({
+            shape: 'round-rectangle',
+            stroke: `3px ${NEIGHBORHOOD_HIGHLIGHT_COLOR}`,
+            fill: 'none'
+          }),
+          // the padding from the actual node to its highlight visualization
+          margins: 2
+        })
+      : item instanceof IEdge
+        ? new EdgeStyleIndicatorRenderer({
+            edgeStyle: new PolylineEdgeStyle({
+              targetArrow: new Arrow({
+                type: 'triangle',
+                stroke: `2px ${NEIGHBORHOOD_HIGHLIGHT_COLOR}`,
+                fill: NEIGHBORHOOD_HIGHLIGHT_COLOR
+              }),
+              stroke: `3px ${NEIGHBORHOOD_HIGHLIGHT_COLOR}`
+            })
+          })
+        : super.getRenderer(item)
   }
 
   highlightNeighborhood(viewStartNode: INode): void {
     const graph = this.graphComponent.graph
 
-    super.clearHighlights()
+    super.items?.clear()
 
     this.addHighlight(viewStartNode)
 
@@ -95,7 +98,7 @@ export class NeighborhoodIndicatorManager extends GraphHighlightIndicatorManager
   }
 
   addHighlight(viewItem: IModelItem) {
-    super.addHighlight(viewItem)
+    super.items?.add(viewItem)
 
     const graph = this.graphComponent.graph
     const foldingView = graph.foldingView!
@@ -104,12 +107,12 @@ export class NeighborhoodIndicatorManager extends GraphHighlightIndicatorManager
 
   clearHighlights() {
     this.neighborhoodCollection.clear()
-    super.clearHighlights()
+    super.items?.clear()
   }
 
   deactivateHighlights(): void {
     // clear highlights while keeping the internal collections
-    super.clearHighlights()
+    super.items?.clear()
   }
 
   activateHighlights(): void {
@@ -122,7 +125,7 @@ export class NeighborhoodIndicatorManager extends GraphHighlightIndicatorManager
         visibleItem = this.getNextVisibleEdge(masterItem)
       }
       if (visibleItem) {
-        super.addHighlight(visibleItem)
+        super.items?.add(visibleItem)
       }
     }
   }
@@ -144,7 +147,7 @@ export class NeighborhoodIndicatorManager extends GraphHighlightIndicatorManager
     const isFiltered = !masterGraph.contains(masterNode)
     if (!isVisible && !isFiltered) {
       // find the next parent that is part of the view
-      const pathToRoot = groupingSupport.getPathToRoot(masterNode)
+      const pathToRoot = groupingSupport.getAncestors(masterNode)
       for (const node of pathToRoot) {
         const viewNode = foldingView.getViewItem(node)
         if (graph.contains(viewNode)) {
@@ -161,24 +164,18 @@ export class NeighborhoodIndicatorManager extends GraphHighlightIndicatorManager
  * Add the neighborhood highlight indicator manager to the lookup of the GraphComponent to obtain it when needed
  */
 export function registerNeighborHoodIndicatorManager(graphComponent: GraphComponent): void {
-  Class.fixType(NeighborhoodIndicatorManager)
   const neighborhoodIndicatorManager = new NeighborhoodIndicatorManager(graphComponent)
-  const decorator = graphComponent.lookup(ILookupDecorator.$class) as ILookupDecorator
-  decorator.addLookup(
-    GraphComponent.$class,
-    IContextLookupChainLink.createContextLookupChainLink((item, type) => {
-      if (type === NeighborhoodIndicatorManager.$class) {
-        return neighborhoodIndicatorManager
-      }
-      return null
-    })
+  const lookupDecorator = graphComponent.lookup(ILookupDecorator) as ILookupDecorator
+
+  new LookupDecorator(GraphComponent, NeighborhoodIndicatorManager, lookupDecorator).addConstant(
+      neighborhoodIndicatorManager
   )
 }
 
 export function getNeighborhoodIndicatorManager(
   graphComponent: GraphComponent
 ): NeighborhoodIndicatorManager {
-  const manager = graphComponent.lookup(NeighborhoodIndicatorManager.$class)
+  const manager = graphComponent.lookup(NeighborhoodIndicatorManager)
   if (!manager) {
     throw new Error('No NeighborhoodIndicatorManager registered on the GraphComponent')
   }

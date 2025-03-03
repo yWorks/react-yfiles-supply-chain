@@ -1,29 +1,29 @@
 import {
-  DefaultLabelStyle,
   EdgesSource,
   GraphBuilder,
   IEdge,
   type IGraph,
   type INode,
+  LabelStyle,
   NodesSource
-} from 'yfiles'
-import {
-  ConnectionStyleProvider,
-  ConnectionLabelProvider,
-  SupplyChainItem,
-  SimpleConnectionLabel,
-  SupplyChainBaseItem,
-  SupplyChainData,
-  SupplyChainConnection
-} from '../SupplyChain'
+} from '@yfiles/yfiles'
 import {
   convertToPolylineEdgeStyle,
   NodeRenderInfo,
-  ReactComponentHtmlNodeStyle,
   ReactComponentHtmlGroupNodeStyle,
+  ReactComponentHtmlNodeStyle,
   RenderGroupNodeProps as RenderGroupProps,
   RenderNodeProps as RenderItemProps
 } from '@yworks/react-yfiles-core'
+import {
+  ConnectionLabelProvider,
+  ConnectionStyleProvider,
+  SimpleConnectionLabel,
+  SupplyChainBaseItem,
+  SupplyChainConnection,
+  SupplyChainData,
+  SupplyChainItem
+} from '../SupplyChain'
 import { ComponentType, Dispatch, SetStateAction } from 'react'
 import { getNode, SupplyChainModel } from '../SupplyChainModel.ts'
 import { colorMapping } from '../styles/color-utils.ts'
@@ -228,21 +228,21 @@ export function initializeGraphManager<
     (item: TSupplyChainItem) => getNode(item, graph)?.layout.y ?? 0
   )
 
-  nodeCreator.addNodeUpdatedListener((_, evt) => {
+  nodeCreator.addEventListener('node-updated', evt => {
     nodeCreator.updateLayout(evt.graph, evt.item, evt.dataItem)
     nodeCreator.updateStyle(evt.graph, evt.item, evt.dataItem)
     nodeCreator.updateTag(evt.graph, evt.item, evt.dataItem)
     nodeCreator.updateLabels(evt.graph, evt.item, evt.dataItem)
   })
 
-  groupNodeCreator.addNodeUpdatedListener((_, evt) => {
+  groupNodeCreator.addEventListener('node-updated', evt => {
     groupNodeCreator.updateLayout(evt.graph, evt.item, evt.dataItem)
     groupNodeCreator.updateStyle(evt.graph, evt.item, evt.dataItem)
     groupNodeCreator.updateTag(evt.graph, evt.item, evt.dataItem)
     groupNodeCreator.updateLabels(evt.graph, evt.item, evt.dataItem)
   })
 
-  edgeCreator.addEdgeUpdatedListener((_, evt) => {
+  edgeCreator.addEventListener('edge-updated', evt => {
     edgeCreator.updateStyle(evt.graph, evt.item, evt.dataItem)
     edgeCreator.updateTag(evt.graph, evt.item, evt.dataItem)
     edgeCreator.updateLabels(evt.graph, evt.item, evt.dataItem)
@@ -275,15 +275,13 @@ function compareData<T>(oldData: T[], newData: T[]): T[] {
   return unequalElements
 }
 
-export function convertToDefaultLabelStyle(
-  connectionLabel: SimpleConnectionLabel
-): DefaultLabelStyle {
-  return new DefaultLabelStyle({
+export function convertToDefaultLabelStyle(connectionLabel: SimpleConnectionLabel): LabelStyle {
+  return new LabelStyle({
     textFill: 'currentColor',
     backgroundFill: '#ffffff',
     shape: connectionLabel.labelShape ?? 'round-rectangle',
     cssClass: `yfiles-react-connection-label ${connectionLabel.className ?? ''}`,
-    insets: 5
+    padding: 5
   })
 }
 
@@ -302,7 +300,7 @@ function getConnectionLabelStyle<TSupplyChainConnection extends SupplyChainConne
   supplyChainModel: SupplyChainModel,
   connection: TSupplyChainConnection,
   connectionLabelProvider?: ConnectionLabelProvider<TSupplyChainConnection>
-): DefaultLabelStyle | null {
+): LabelStyle | null {
   if (connectionLabelProvider) {
     const connectionLabel = connectionLabelProvider(connection, supplyChainModel)
     if (connectionLabel) {

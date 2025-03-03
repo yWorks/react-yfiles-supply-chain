@@ -1,4 +1,4 @@
-import { FilteredGraphWrapper, GraphComponent, IEdge, IGraph, INode } from 'yfiles'
+import { FilteredGraphWrapper, GraphComponent, IEdge, IGraph, INode } from '@yfiles/yfiles'
 import { type ExportSettings, type PrintSettings } from '@yworks/react-yfiles-core'
 import {
   FoldingConnection,

@@ -1,5 +1,5 @@
 import { SupplyChainLayoutOptions } from '../SupplyChain.tsx'
-import { Arrow, ArrowType, IArrow, Insets, PolylineEdgeStyle, Size } from 'yfiles'
+import { Arrow, ArrowType, Insets, PolylineEdgeStyle, Size } from '@yfiles/yfiles'
 
 export const componentBackgroundColor = 'rgb(238,238,238)'
 export const maximumZoom = 4
@@ -26,11 +26,12 @@ export const defaultEdgeSmoothingLength = 10
 export const defaultEdgeStyle = new PolylineEdgeStyle({
   targetArrow: new Arrow({
     type: ArrowType.TRIANGLE,
-    scale: 1.5,
+    widthScale: 1.5,
+    lengthScale: 1.5,
     stroke: defaultEdgeColor,
     fill: defaultEdgeColor
   }),
-  sourceArrow: IArrow.NONE,
+  sourceArrow: new Arrow(ArrowType.NONE),
   stroke: `${defaultEdgeWidth} ${defaultEdgeColor}`,
   smoothingLength: defaultEdgeSmoothingLength
 })

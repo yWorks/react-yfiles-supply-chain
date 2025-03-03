@@ -1,58 +1,54 @@
 import {
-  AsIsLayerer,
-  FixNodeLayoutStage,
-  GroupCompactionPolicy,
-  HierarchicLayout,
-  HierarchicLayoutRoutingStyle,
+  FromSketchLayerAssigner,
+  GroupLayeringPolicy,
+  HierarchicalLayout,
   ILayoutAlgorithm,
+  LayoutAnchoringStage,
   LayoutExecutorAsyncWorker,
   LayoutGraph,
   License,
-  SimplexNodePlacer
-} from 'yfiles'
-import { SupplyChainLayoutOptions } from '../SupplyChain.tsx'
-import { defaultLayoutOptions } from './defaults.ts'
+  RoutingStyleDescriptor,
+} from '@yfiles/yfiles'
+import {SupplyChainLayoutOptions} from '../SupplyChain.tsx'
+import {defaultLayoutOptions} from './defaults.ts'
 
 export function createLayout(
   incremental: boolean,
   layoutOptions: SupplyChainLayoutOptions
 ): ILayoutAlgorithm {
-  let layout = new HierarchicLayout({
+  const layout = new HierarchicalLayout({
     layoutOrientation: layoutOptions.layoutDirection ?? defaultLayoutOptions.layoutDirection,
-    integratedEdgeLabeling: true
+    edgeLabelPlacement: 'integrated',
+    fromSketchMode: incremental,
+    defaultNodeDescriptor: {
+      layerAlignment: 0
+    },
+    defaultEdgeDescriptor: {
+      minimumFirstSegmentLength:
+        layoutOptions.minimumFirstSegmentLength ?? defaultLayoutOptions.minimumFirstSegmentLength!,
+      minimumLastSegmentLength:
+        layoutOptions.minimumLastSegmentLength ?? defaultLayoutOptions.minimumLastSegmentLength!,
+      routingStyleDescriptor: new RoutingStyleDescriptor({
+        routingStyle: layoutOptions.routingStyle ?? defaultLayoutOptions.routingStyle!
+      })
+    },
+    groupLayeringPolicy: GroupLayeringPolicy.RECURSIVE_COMPACT,
+    coordinateAssigner: {
+      // do not expand group node vertically
+      groupCompaction: true
+    },
+    stopDuration:
+      layoutOptions.maximumDuration ??
+      defaultLayoutOptions.maximumDuration ??
+      Number.POSITIVE_INFINITY
   })
 
-  layout.layoutMode = incremental ? 'incremental' : 'from-scratch'
-
-  layout.nodeLayoutDescriptor.layerAlignment = 0
-
-  layout.edgeLayoutDescriptor.minimumFirstSegmentLength =
-    layoutOptions.minimumFirstSegmentLength ?? defaultLayoutOptions.minimumFirstSegmentLength!
-  layout.edgeLayoutDescriptor.minimumLastSegmentLength =
-    layoutOptions.minimumLastSegmentLength ?? defaultLayoutOptions.minimumLastSegmentLength!
-  layout.edgeLayoutDescriptor.routingStyle = new HierarchicLayoutRoutingStyle({
-    routingStyle: layoutOptions.routingStyle ?? defaultLayoutOptions.routingStyle!
-  })
-
-  // do not expand group node vertically
-  layout.compactGroups = true
-  const nodePlacer = layout.nodePlacer as SimplexNodePlacer
-  nodePlacer.groupCompactionStrategy = GroupCompactionPolicy.MAXIMAL
   if (incremental) {
-    layout.fixedElementsLayerer = new AsIsLayerer({
+    layout.core.fixedElementsLayerAssigner = new FromSketchLayerAssigner({
       maximumNodeSize: 10
     })
   }
-
-  layout.maximumDuration =
-    layoutOptions.maximumDuration ??
-    defaultLayoutOptions.maximumDuration ??
-    Number.POSITIVE_INFINITY
-
-  layout.minimumLayerDistance =
-    layoutOptions.minimumLayerDistance ?? defaultLayoutOptions.minimumLayerDistance ?? 0
-
-  return new FixNodeLayoutStage({ coreLayout: layout, fixPointPolicy: 'upper-left' })
+  return new LayoutAnchoringStage({ coreLayout: layout })
 }
 
 function applyLayout(

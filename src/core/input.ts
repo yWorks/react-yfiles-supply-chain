@@ -1,18 +1,15 @@
 import {
   type GraphComponent,
-  GraphFocusIndicatorManager,
   GraphItemTypes,
   GraphViewerInputMode,
   HoveredItemChangedEventArgs,
   IEdge,
   INode,
-  ItemEventArgs,
+  InputModeItemEventArgs,
   ItemHoverInputMode,
   NavigationInputMode,
-  NodeAlignmentPolicy,
-  ShowFocusPolicy,
-  VoidNodeStyle
-} from 'yfiles'
+  NodeAlignmentPolicy
+} from '@yfiles/yfiles'
 import { getSupplyChainItem } from './data-loading'
 import { SupplyChainModel } from '../SupplyChainModel'
 import { SupplyChainBaseItem, SupplyChainItem } from '../SupplyChain.tsx'
@@ -40,7 +37,7 @@ export function initializeInputMode(
   graphViewerInputMode.navigationInputMode.autoGroupNodeAlignmentPolicy =
     NodeAlignmentPolicy.TOP_LEFT
 
-  graphViewerInputMode.addItemDoubleClickedListener((_, evt) => {
+  graphViewerInputMode.addEventListener('item-double-clicked', evt => {
     const item = evt.item
     if (item instanceof INode) {
       SupplyChain.zoomTo([getSupplyChainItem(item) as SupplyChainItem])
@@ -60,26 +57,32 @@ export function configureExpandCollapse(
   navigationInputMode: NavigationInputMode,
   SupplyChain: SupplyChainModel
 ) {
-  const expandCollapsingListener = (sender: NavigationInputMode, _: ItemEventArgs<INode>) => {
+  const expandCollapsingListener = (
+    _: InputModeItemEventArgs<INode>,
+    sender: NavigationInputMode
+  ) => {
     const neighborhoodHighlightManager = getNeighborhoodIndicatorManager(sender.graphComponent!)
     neighborhoodHighlightManager.deactivateHighlights()
   }
-  const expandCollapsedListener = (sender: NavigationInputMode, evt: ItemEventArgs<INode>) => {
+  const expandCollapsedListener = (
+    evt: InputModeItemEventArgs<INode>,
+    sender: NavigationInputMode
+  ) => {
     const incrementalItems = SupplyChain.getChildren(evt.item.tag).concat([evt.item.tag])
     SupplyChain.applyLayout(true, incrementalItems, evt.item.tag).then(() => {
       const graphComponent = SupplyChain.graphComponent
-      graphComponent.viewportLimiter.bounds = graphComponent.contentRect
+      graphComponent.viewportLimiter.bounds = graphComponent.contentBounds
     })
 
     const neighborhoodHighlightManager = getNeighborhoodIndicatorManager(sender.graphComponent!)
     neighborhoodHighlightManager.activateHighlights()
   }
 
-  navigationInputMode.addGroupCollapsingListener(expandCollapsingListener)
-  navigationInputMode.addGroupExpandingListener(expandCollapsingListener)
+  navigationInputMode.addEventListener('group-collapsing', expandCollapsingListener)
+  navigationInputMode.addEventListener('group-expanding', expandCollapsingListener)
 
-  navigationInputMode.addGroupCollapsedListener(expandCollapsedListener)
-  navigationInputMode.addGroupExpandedListener(expandCollapsedListener)
+  navigationInputMode.addEventListener('group-collapsed', expandCollapsedListener)
+  navigationInputMode.addEventListener('group-expanded', expandCollapsedListener)
 }
 
 export function initializeHover<TSupplyChainItem extends SupplyChainBaseItem>(
@@ -90,15 +93,15 @@ export function initializeHover<TSupplyChainItem extends SupplyChainBaseItem>(
   inputMode.itemHoverInputMode.hoverItems = GraphItemTypes.NODE | GraphItemTypes.EDGE
 
   const hoverItemChangedListener: (
-    sender: ItemHoverInputMode,
-    evt: HoveredItemChangedEventArgs
-  ) => void = (_, { item, oldItem }): void => {
+    evt: HoveredItemChangedEventArgs,
+    sender: ItemHoverInputMode
+  ) => void = ({ item, oldItem }): void => {
     if (onHover) {
       onHover(item?.tag, oldItem?.tag)
     }
   }
 
-  inputMode.itemHoverInputMode.addHoveredItemChangedListener(hoverItemChangedListener)
+  inputMode.itemHoverInputMode.addEventListener('hovered-item-changed', hoverItemChangedListener)
   return hoverItemChangedListener
 }
 
@@ -122,7 +125,7 @@ export function initializeFocus<TSupplyChainItem extends SupplyChainBaseItem>(
       }
     }
   }
-  graphComponent.addCurrentItemChangedListener(currentItemChangedListener)
+  graphComponent.addEventListener('current-item-changed', currentItemChangedListener)
   return currentItemChangedListener
 }
 
@@ -140,13 +143,14 @@ export function initializeSelection<TSupplyChainItem extends SupplyChainBaseItem
     itemSelectionChangedListener = () => {
       onSelect(
         graphComponent.selection
-          .filter(element => IEdge.isInstance(element) || INode.isInstance(element))
+          .filter(element => element instanceof IEdge || element instanceof INode)
           .map(element => getSupplyChainItem<TSupplyChainItem>(element as INode | IEdge))
           .toArray()
       )
     }
   }
-  graphComponent.selection.addItemSelectionChangedListener(itemSelectionChangedListener)
+  graphComponent.selection.addEventListener('item-added', itemSelectionChangedListener)
+  graphComponent.selection.addEventListener('item-removed', itemSelectionChangedListener)
   return itemSelectionChangedListener
 }
 
@@ -154,11 +158,8 @@ export function initializeSelection<TSupplyChainItem extends SupplyChainBaseItem
  * Initializes the highlights for selected or focused elements.
  */
 function initializeHighlights(graphComponent: GraphComponent): void {
-  graphComponent.selectionIndicatorManager.enabled = false
-
-  // Hide the default focus highlight in favor of the CSS highlighting from the template styles
-  graphComponent.focusIndicatorManager = new GraphFocusIndicatorManager({
-    showFocusPolicy: ShowFocusPolicy.ALWAYS,
-    nodeStyle: VoidNodeStyle.INSTANCE
-  })
+  // Hide the default selection/focus highlight in favor of the CSS highlighting from the template styles
+  graphComponent.graph.decorator.nodes.selectionRenderer.hide()
+  graphComponent.graph.decorator.nodes.focusRenderer.hide()
+  graphComponent.focusIndicatorManager.showFocusPolicy = 'always'
 }

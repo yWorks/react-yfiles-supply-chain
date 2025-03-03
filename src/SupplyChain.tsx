@@ -15,11 +15,11 @@ import {
   GraphComponent,
   GraphObstacleProvider,
   GraphViewerInputMode,
-  ICanvasObject,
+  GroupPaddingProvider,
   IGraph,
-  NodeInsetsProvider,
+  IRenderTreeElement,
   Size
-} from 'yfiles'
+} from '@yfiles/yfiles'
 import {
   initializeFocus,
   initializeHover,
@@ -482,7 +482,7 @@ const SupplyChainCore = withGraphComponent(
     const graphComponent = supplyChainModel.graphComponent
 
     useEffect(() => {
-      checkStylesheetLoaded(graphComponent.div, 'react-yfiles-supply-chain')
+      checkStylesheetLoaded(graphComponent.htmlElement, 'react-yfiles-supply-chain')
     }, [])
 
     useEffect(() => {
@@ -509,9 +509,9 @@ const SupplyChainCore = withGraphComponent(
       initializeDefaultStyle(graphComponent, masterGraph, setNodeInfos, itemSize)
       initializeBridges(graphComponent)
 
-      graphComponent.graph.decorator.nodeDecorator.insetsProviderDecorator.setFactory(node => {
+      graphComponent.graph.decorator.nodes.groupPaddingProvider.addFactory(node => {
         return graphComponent.graph.isGroupNode(node)
-          ? new NodeInsetsProvider([50, 15, 15, 15])
+          ? new GroupPaddingProvider([50, 15, 15, 15])
           : null
       })
 
@@ -559,9 +559,10 @@ const SupplyChainCore = withGraphComponent(
       return () => {
         // clean up
         hoverItemChangedListener &&
-          (
-            graphComponent.inputMode as GraphViewerInputMode
-          ).itemHoverInputMode.removeHoveredItemChangedListener(hoverItemChangedListener)
+        (graphComponent.inputMode as GraphViewerInputMode).itemHoverInputMode.removeEventListener(
+            'hovered-item-changed',
+            hoverItemChangedListener
+        )
       }
     }, [onItemHover])
 
@@ -573,9 +574,11 @@ const SupplyChainCore = withGraphComponent(
       return () => {
         // clean up the listeners
         currentItemChangedListener &&
-          graphComponent.removeCurrentItemChangedListener(currentItemChangedListener)
+          graphComponent.removeEventListener('current-item-changed', currentItemChangedListener)
         selectedItemChangedListener &&
-          graphComponent.selection.removeItemSelectionChangedListener(selectedItemChangedListener)
+          graphComponent.selection.removeEventListener('item-added', selectedItemChangedListener)
+        selectedItemChangedListener &&
+          graphComponent.selection.removeEventListener('item-removed', selectedItemChangedListener)
       }
     }, [onItemFocus, onItemSelect])
 
@@ -587,7 +590,7 @@ const SupplyChainCore = withGraphComponent(
         connectionStyleProvider,
         connectionLabelProvider
       )
-      graphComponent.fitGraphBounds(defaultGraphFitInsets)
+      void graphComponent.fitGraphBounds(defaultGraphFitInsets)
     }, [data, itemSize?.width, itemSize?.height, connectionStyleProvider, renderItem, renderGroup])
 
     const graphSearch = useGraphSearch<TSupplyChainItem, TNeedle>(
@@ -599,7 +602,7 @@ const SupplyChainCore = withGraphComponent(
     supplyChainModel.getSearchHits = () => graphSearch.matchingNodes.map(n => n.tag)
 
     useEffect(() => {
-      let heatMapCanvasObject: ICanvasObject | null = null
+      let heatMapCanvasObject: IRenderTreeElement | null = null
 
       if (typeof heatMapping === 'function') {
         heatMapCanvasObject = addHeatmap(graphComponent, t => heatMapping(t.tag, supplyChainModel))
@@ -609,7 +612,7 @@ const SupplyChainCore = withGraphComponent(
 
       return () => {
         if (heatMapCanvasObject) {
-          heatMapCanvasObject.remove()
+          heatMapCanvasObject.renderTree.remove(heatMapCanvasObject)
           heatMapCanvasObject = null
         }
       }
@@ -639,7 +642,7 @@ const SupplyChainCore = withGraphComponent(
           onMeasured={() => {
             if (typeof showLevel === 'undefined') {
               // showLevel already runs a layout, so only layout if not defined
-              supplyChainModel.applyLayout(false, [], undefined, true)
+              void supplyChainModel.applyLayout(false, [], undefined, true)
             }
           }}
           onRendered={supplyChainModel.onRendered}
