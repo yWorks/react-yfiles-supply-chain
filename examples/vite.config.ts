@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     target: 'ES2022'
+  },
+  resolve: {
+    dedupe: ['react', 'react-dom']
   }
 })
