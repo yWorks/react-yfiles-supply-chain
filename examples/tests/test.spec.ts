@@ -22,6 +22,8 @@ test('examples', async ({ page }) => {
     console.log('Testing example', exampleName)
     await comboLocator.selectOption(exampleName)
 
+    // wait for the old gc to be gone
+    await page.waitForTimeout(100)
     const gcCount = await gcLocator.count()
     for (let i = 0; i < gcCount; i++) {
       await gcLocator.nth(i).click()
