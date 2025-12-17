@@ -30,7 +30,9 @@ export default function Header() {
         {routes
           .filter(route => route.path === currentPath)
           .map(route => (
-            <div className="description">{route.description}</div>
+            <div className="description" key={route.path}>
+              {route.description}
+            </div>
           ))}
       </header>
       <Outlet />
