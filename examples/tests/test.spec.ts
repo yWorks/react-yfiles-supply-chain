@@ -5,7 +5,21 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/yFiles Supply Chain Component Examples/)
 })
 
+const ignoredConsoleLogs = [
+  '[vite]',
+  'React DevTools',
+  'running in development mode',
+  // favicon.ico - we should also check failing network requests
+  '404'
+]
+
 test('examples', async ({ page }) => {
+  page.on('console', msg => {
+    const text = msg.text()
+    if (!ignoredConsoleLogs.some(ignored => text.includes(ignored))) {
+      expect.soft(text, `Unexpected console output`).toBeUndefined()
+    }
+  })
   await page.goto('.')
 
   const gcLocator = page.locator('css=.yfiles-canvascomponent:not(.graph-overview-component)')
@@ -22,6 +36,8 @@ test('examples', async ({ page }) => {
     console.log('Testing example', exampleName)
     await comboLocator.selectOption(exampleName)
 
+    // wait for the old gc to be gone
+    await page.waitForTimeout(100)
     const gcCount = await gcLocator.count()
     for (let i = 0; i < gcCount; i++) {
       await gcLocator.nth(i).click()
