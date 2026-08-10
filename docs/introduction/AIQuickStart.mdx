@@ -1,0 +1,46 @@
+---
+title: AI Quick Start
+section: 2
+tags: []
+---
+
+import CopyPromptButton from '../../components/CopyPromptButton.astro'
+
+# AI Quick Start
+
+If you are using an AI-powered development environment or an LLM-based agent, you can accelerate the setup process by providing the right context and prompts.
+
+## Initial Setup Prompt
+
+Start by asking your agent to prepare the environment:
+
+<CopyPromptButton prompt="fetch the https://docs.yworks.com/react-yfiles-supply-chain/ai/agent-start.md and follow its instructions"/>
+
+This will guide the agent to:
+1.  Download and install the necessary **yFiles for HTML** dependency.
+2.  Install the **Supply Chain React component**.
+3.  Set up the specialized **agent skill** for supply chains.
+
+After these steps are completed, the session must be restarted for the changes to take effect.
+
+## Building and Customizing the Application
+
+Once the environment is prepared, you can prompt the agent to build a sample application, integrate the component into your existing codebase, or enhance its functionality.
+
+Here are some example prompts you can use to get started:
+
+**Create a basic supply chain view:**
+```text
+Create a new React component that uses the Supply Chain component to visualize a sample supply chain.
+  ```
+
+**Load data from a JSON file:**
+```text
+Modify the existing supply chain component to load and visualize the supply chain data from 'data/supply-chain.json'.
+  ```
+
+**Add interactivity to the view:**
+```text
+Add a tooltip to the supply chain component that displays the item name and its capacity when hovering over a node.
+  ```
+
