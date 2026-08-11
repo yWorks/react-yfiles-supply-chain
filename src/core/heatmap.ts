@@ -1,12 +1,11 @@
 import {
   type GraphComponent,
+  HeatMapRenderer,
   HtmlCanvasVisual,
   IEdge,
   INode,
   type IRenderContext,
-  type IRenderTreeElement,
-  IVisualCreator,
-  type Visual
+  type IRenderTreeElement
 } from '@yfiles/yfiles'
 
 const heatScale = 0.5
@@ -163,15 +162,9 @@ export function addHeatmap(
 `
     heatmapParent.appendChild(installedDivElement)
   }
-  return graphComponent.renderTree.backgroundGroup.renderTree.createElement(
+  return graphComponent.renderTree.createElement(
     graphComponent.renderTree.backgroundGroup,
-    IVisualCreator.create({
-      createVisual(): Visual {
-        return new HeatmapBackground(getHeat)
-      },
-      updateVisual(context: IRenderContext, oldVisual: Visual | null): Visual {
-        return oldVisual!
-      }
-    })
+    graphComponent.graph,
+    new HeatMapRenderer(getHeat, getHeat)
   )
 }

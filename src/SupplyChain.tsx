@@ -559,10 +559,10 @@ const SupplyChainCore = withGraphComponent(
       return () => {
         // clean up
         hoverItemChangedListener &&
-        (graphComponent.inputMode as GraphViewerInputMode).itemHoverInputMode.removeEventListener(
+          (graphComponent.inputMode as GraphViewerInputMode).itemHoverInputMode.removeEventListener(
             'hovered-item-changed',
             hoverItemChangedListener
-        )
+          )
       }
     }, [onItemHover])
 
@@ -602,18 +602,18 @@ const SupplyChainCore = withGraphComponent(
     supplyChainModel.getSearchHits = () => graphSearch.matchingNodes.map(n => n.tag)
 
     useEffect(() => {
-      let heatMapCanvasObject: IRenderTreeElement | null = null
+      let heatMapTreeElement: IRenderTreeElement | null = null
 
       if (typeof heatMapping === 'function') {
-        heatMapCanvasObject = addHeatmap(graphComponent, t => heatMapping(t.tag, supplyChainModel))
+        heatMapTreeElement = addHeatmap(graphComponent, t => heatMapping(t.tag, supplyChainModel))
       } else if (heatMapping !== undefined) {
         console.warn(`Heat mapping is not a function: ${heatMapping}`)
       }
 
       return () => {
-        if (heatMapCanvasObject) {
-          heatMapCanvasObject.renderTree.remove(heatMapCanvasObject)
-          heatMapCanvasObject = null
+        if (heatMapTreeElement) {
+          heatMapTreeElement.renderTree.remove(heatMapTreeElement)
+          heatMapTreeElement = null
         }
       }
     }, [graphComponent, heatMapping])
