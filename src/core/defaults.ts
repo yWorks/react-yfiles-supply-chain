@@ -1,4 +1,4 @@
-import { SupplyChainLayoutOptions } from '../SupplyChain.tsx'
+import type { SupplyChainLayoutOptions } from '../SupplyChain.tsx'
 import { Arrow, ArrowType, Insets, PolylineEdgeStyle, Size } from '@yfiles/yfiles'
 
 export const componentBackgroundColor = 'rgb(238,238,238)'

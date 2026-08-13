@@ -2,8 +2,8 @@ import {
   type GraphComponent,
   HeatMapRenderer,
   HtmlCanvasVisual,
-  IEdge,
-  INode,
+  type IEdge,
+  type INode,
   type IRenderContext,
   type IRenderTreeElement
 } from '@yfiles/yfiles'

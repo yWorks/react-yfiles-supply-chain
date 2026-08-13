@@ -1,7 +1,8 @@
 import '../styles/supply-chain-tooltip.css'
-import { FoldingConnection, SupplyChainConnection, SupplyChainItem } from '../SupplyChain.tsx'
+import type { FoldingConnection, SupplyChainConnection, SupplyChainItem } from '../SupplyChain.tsx'
 import { getUserProperties, stringifyData } from './template-utils.ts'
-import { RenderTooltipProps } from '@yworks/react-yfiles-core'
+import type { RenderTooltipProps } from '@yworks/react-yfiles-core'
+import type { JSX } from 'react';
 import { Fragment } from 'react'
 import { useSupplyChainContext } from '../SupplyChainProvider.tsx'
 
@@ -26,7 +27,7 @@ export function RenderSupplyChainTooltip<
   data
 }: RenderTooltipProps<
   TSupplyChainItem | TSupplyChainConnection | FoldingConnection<TSupplyChainConnection>
->) {
+>): JSX.Element | null {
   const context = useSupplyChainContext()!
 
   if (!data) {

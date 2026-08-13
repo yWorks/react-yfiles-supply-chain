@@ -1,23 +1,26 @@
 import './styles/supply-chain-styles.css'
 import {
-  ComponentType,
-  CSSProperties,
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
+  type ComponentType,
+  type CSSProperties,
+  type Dispatch,
+  type JSX,
+  type PropsWithChildren,
+  type SetStateAction,
   useEffect,
   useMemo,
   useState
 } from 'react'
 import {
+  type GraphComponent,
+  type GraphViewerInputMode,
+  type IGraph,
+  type IRenderTreeElement
+} from '@yfiles/yfiles'
+import {
   BridgeCrossingStyle,
   BridgeManager,
-  GraphComponent,
   GraphObstacleProvider,
-  GraphViewerInputMode,
   GroupPaddingProvider,
-  IGraph,
-  IRenderTreeElement,
   Size
 } from '@yfiles/yfiles'
 import {
@@ -30,17 +33,17 @@ import {
   checkLicense,
   checkStylesheetLoaded,
   ContextMenu,
-  ContextMenuItemProvider,
-  EdgeStyle as ConnectionStyle,
+  type ContextMenuItemProvider,
+  type EdgeStyle as ConnectionStyle,
   LicenseError,
-  NodeRenderInfo,
+  type NodeRenderInfo,
   ReactComponentHtmlGroupNodeStyle,
   ReactComponentHtmlNodeStyle,
   ReactNodeRendering,
-  RenderContextMenuProps,
-  RenderGroupNodeProps as RenderGroupProps,
-  RenderNodeProps as RenderItemProps,
-  RenderTooltipProps,
+  type RenderContextMenuProps,
+  type RenderGroupNodeProps as RenderGroupProps,
+  type RenderNodeProps as RenderItemProps,
+  type RenderTooltipProps,
   Tooltip,
   useGraphSearch,
   useReactNodeRendering,
@@ -52,13 +55,13 @@ import {
   useSupplyChainContextInternal
 } from './SupplyChainProvider.tsx'
 import { initializeGraphManager } from './core/data-loading.ts'
-import { SupplyChainModel, SupplyChainModelInternal } from './SupplyChainModel.ts'
+import type { SupplyChainModel, SupplyChainModelInternal } from './SupplyChainModel.ts'
 import { RenderSupplyChainItem } from './components/RenderSupplyChainItem.tsx'
 import { RenderSupplyChainGroup } from './components/RenderSupplyChainGroup.tsx'
 import { colorMapping } from './styles/color-utils.ts'
 import { addHeatmap } from './core/heatmap.ts'
 import { defaultEdgeStyle, defaultGraphFitInsets, defaultLayoutOptions } from './core/defaults.ts'
-import StylingFoldingEdgeConverter from './core/StylingFoldingEdgeConverter.ts'
+import type StylingFoldingEdgeConverter from './core/StylingFoldingEdgeConverter.ts'
 
 /**
  * The item's unique id.
@@ -427,7 +430,9 @@ export function SupplyChain<
   TSupplyChainItem extends SupplyChainItem = UserSupplyChainItem,
   TSupplyChainConnection extends SupplyChainConnection = UserSupplyChainConnection,
   TNeedle = string
->(props: SupplyChainProps<TSupplyChainItem, TSupplyChainConnection, TNeedle> & PropsWithChildren) {
+>(
+  props: SupplyChainProps<TSupplyChainItem, TSupplyChainConnection, TNeedle> & PropsWithChildren
+): JSX.Element {
   if (!checkLicense()) {
     return (
       <LicenseError
@@ -533,18 +538,19 @@ const SupplyChainCore = withGraphComponent(
     const stylingFoldingEdgeConverter = graphComponent.graph.foldingView!.manager
       .foldingEdgeConverter as StylingFoldingEdgeConverter<TSupplyChainItem, TSupplyChainConnection>
 
-    useEffect(() => {
+    useEffect((): void => {
       stylingFoldingEdgeConverter.connectionStyleProvider = connectionStyleProvider
     }, [connectionStyleProvider])
 
-    useEffect(() => {
+    useEffect((): void => {
       if (connectionLabelProvider) {
-        stylingFoldingEdgeConverter.connectionLabelProvider = item =>
-          connectionLabelProvider(item, supplyChainModel)
+        stylingFoldingEdgeConverter.connectionLabelProvider = (
+          item: TSupplyChainConnection | FoldingConnection<TSupplyChainConnection>
+        ): SimpleConnectionLabel | undefined => connectionLabelProvider(item, supplyChainModel)
       }
     }, [connectionLabelProvider])
 
-    useEffect(() => {
+    useEffect((): void => {
       initializeDefaultStyle(
         graphComponent,
         graphComponent.graph.foldingView!.manager.masterGraph,
@@ -556,7 +562,7 @@ const SupplyChainCore = withGraphComponent(
     useEffect(() => {
       const hoverItemChangedListener = initializeHover(onItemHover, graphComponent)
 
-      return () => {
+      return (): void => {
         // clean up
         hoverItemChangedListener &&
           (graphComponent.inputMode as GraphViewerInputMode).itemHoverInputMode.removeEventListener(
@@ -571,7 +577,7 @@ const SupplyChainCore = withGraphComponent(
       const currentItemChangedListener = initializeFocus(onItemFocus, graphComponent)
       const selectedItemChangedListener = initializeSelection(onItemSelect, graphComponent)
 
-      return () => {
+      return (): void => {
         // clean up the listeners
         currentItemChangedListener &&
           graphComponent.removeEventListener('current-item-changed', currentItemChangedListener)
@@ -599,7 +605,8 @@ const SupplyChainCore = withGraphComponent(
       onSearch
     )
     // provide search hits on the supplyChainModel
-    supplyChainModel.getSearchHits = () => graphSearch.matchingNodes.map(n => n.tag)
+    supplyChainModel.getSearchHits = (): SupplyChainItem[] =>
+      graphSearch.matchingNodes.map(n => n.tag)
 
     useEffect(() => {
       let heatMapTreeElement: IRenderTreeElement | null = null
@@ -610,7 +617,7 @@ const SupplyChainCore = withGraphComponent(
         console.warn(`Heat mapping is not a function: ${heatMapping}`)
       }
 
-      return () => {
+      return (): void => {
         if (heatMapTreeElement) {
           heatMapTreeElement.renderTree.remove(heatMapTreeElement)
           heatMapTreeElement = null
@@ -685,7 +692,7 @@ function initializeDefaultStyle<TSupplyChainItem extends SupplyChainItem>(
   graph.edgeDefaults.style = defaultEdgeStyle
 }
 
-function initializeBridges(graphComponent: GraphComponent) {
+function initializeBridges(graphComponent: GraphComponent): void {
   // Configure bridge manager: This visualizes edge crossings in a way that makes
   // it much easier to understand which edge goes where.
   const bridgeManager = new BridgeManager({

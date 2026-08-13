@@ -1,13 +1,13 @@
-import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
+import { createContext, type JSX, type PropsWithChildren, useContext, useMemo } from 'react'
 import { useGraphComponent, withGraphComponentProvider } from '@yworks/react-yfiles-core'
-import { SupplyChainModel } from './SupplyChainModel'
+import type { SupplyChainModel } from './SupplyChainModel'
 import {
   FilteredGraphWrapper,
-  FolderNodeConverter,
+  type FolderNodeConverter,
   FoldingManager,
   Graph,
-  IEdge,
-  INode,
+  type IEdge,
+  type INode,
   ViewportLimitingPolicy
 } from '@yfiles/yfiles'
 import {
@@ -112,39 +112,40 @@ export function useSupplyChainContext(): SupplyChainModel {
  * }
  * ```
  */
-export const SupplyChainProvider = withGraphComponentProvider(({ children }: PropsWithChildren) => {
-  const graphComponent = useGraphComponent()
+export const SupplyChainProvider: (props: PropsWithChildren) => JSX.Element =
+  withGraphComponentProvider(({ children }: PropsWithChildren) => {
+    const graphComponent = useGraphComponent()
 
-  if (!graphComponent) {
-    return children
-  }
+    if (!graphComponent) {
+      return children
+    }
 
-  const SupplyChain = useMemo(() => {
-    const hiddenItems = new Set<INode | IEdge>()
-    const fullGraph = new Graph()
-    const filteredGraph = new FilteredGraphWrapper(
-      fullGraph,
-      node => !hiddenItems.has(node),
-      edge => !hiddenItems.has(edge)
-    )
+    const SupplyChain = useMemo(() => {
+      const hiddenItems = new Set<INode | IEdge>()
+      const fullGraph = new Graph()
+      const filteredGraph = new FilteredGraphWrapper(
+        fullGraph,
+        node => !hiddenItems.has(node),
+        edge => !hiddenItems.has(edge)
+      )
 
-    const foldingManager = new FoldingManager(filteredGraph)
-    graphComponent.graph = foldingManager.createFoldingView().graph
-    ;(foldingManager.folderNodeConverter as FolderNodeConverter).folderNodeDefaults.size =
-      defaultFolderNodeSize
-    foldingManager.foldingEdgeConverter = new StylingFoldingEdgeConverter()
+      const foldingManager = new FoldingManager(filteredGraph)
+      graphComponent.graph = foldingManager.createFoldingView().graph
+      ;(foldingManager.folderNodeConverter as FolderNodeConverter).folderNodeDefaults.size =
+        defaultFolderNodeSize
+      foldingManager.foldingEdgeConverter = new StylingFoldingEdgeConverter()
 
-    graphComponent.htmlElement.style.backgroundColor = componentBackgroundColor
+      graphComponent.htmlElement.style.backgroundColor = componentBackgroundColor
 
-    graphComponent.viewportLimiter.policy = ViewportLimitingPolicy.WITHIN_MARGINS
-    graphComponent.viewportLimiter.viewportContentMargins = defaultGraphFitInsets.getEnlarged(20)
+      graphComponent.viewportLimiter.policy = ViewportLimitingPolicy.WITHIN_MARGINS
+      graphComponent.viewportLimiter.viewportContentMargins = defaultGraphFitInsets.getEnlarged(20)
 
-    graphComponent.maximumZoom = maximumZoom
-    graphComponent.minimumZoom = minimumZoom
+      graphComponent.maximumZoom = maximumZoom
+      graphComponent.minimumZoom = minimumZoom
 
-    const layoutSupport = new LayoutSupport(graphComponent)
-    return createSupplyChainModel(graphComponent, hiddenItems, layoutSupport)
-  }, [])
+      const layoutSupport = new LayoutSupport(graphComponent)
+      return createSupplyChainModel(graphComponent, hiddenItems, layoutSupport)
+    }, [])
 
-  return <SupplyChainContext.Provider value={SupplyChain}>{children}</SupplyChainContext.Provider>
-})
+    return <SupplyChainContext.Provider value={SupplyChain}>{children}</SupplyChainContext.Provider>
+  })

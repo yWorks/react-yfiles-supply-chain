@@ -1,4 +1,4 @@
-import {
+import type {
   FoldingConnection,
   SupplyChainConnection,
   SupplyChainItem,
@@ -9,21 +9,19 @@ import {
   getFilteredGraphWrapper,
   getNode,
   getNodeFromId,
-  SupplyChainModelInternal
+  type SupplyChainModelInternal
 } from './SupplyChainModel.ts'
-
 import {
-  GraphComponent,
-  GroupingSupport,
   Command,
-  IEdge,
-  INode,
+  type GraphComponent,
+  GroupingSupport,
+  type IEdge,
+  type INode,
   Insets,
   MutableRectangle,
   Neighborhood,
   TraversalDirection
 } from '@yfiles/yfiles'
-
 import {
   exportImageAndSave,
   type ExportSettings,
@@ -31,10 +29,8 @@ import {
   printDiagram,
   type PrintSettings
 } from '@yworks/react-yfiles-core'
-
 import { getNeighborhoodIndicatorManager } from './core/NeighborhoodIndicatorManager.ts'
-
-import { LayoutSupport } from './core/LayoutSupport.ts'
+import type { LayoutSupport } from './core/LayoutSupport.ts'
 import {
   componentBackgroundColor,
   defaultExportMargins,
@@ -50,16 +46,16 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
 
   // this is a hack, so we have something like `await nextTick()`
   // that we can use instead of `setTimeout()`
-  const setRenderedCallback = (cb: () => void) => {
+  const setRenderedCallback = (cb: () => void): void => {
     onRenderedCallback = cb
   }
 
-  const onRendered = () => {
+  const onRendered = (): void => {
     onRenderedCallback?.()
     onRenderedCallback = null
   }
 
-  function showGenealogy(item: SupplyChainItem, showOnlyConnected: boolean = false) {
+  function showGenealogy(item: SupplyChainItem, showOnlyConnected: boolean = false): void {
     const viewGraph = graphComponent.graph
     const foldingView = viewGraph.foldingView!
     const masterGraph = foldingView.manager.masterGraph
@@ -122,7 +118,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     })
   }
 
-  function canCollapseItem(item: SupplyChainItem) {
+  function canCollapseItem(item: SupplyChainItem): boolean {
     const viewGraph = graphComponent.graph
     const foldingView = viewGraph.foldingView!
     const masterGraph = foldingView.manager.masterGraph
@@ -137,7 +133,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     return isGroupNode && foldingView.isExpanded(node)
   }
 
-  function canExpandItem(item: SupplyChainItem) {
+  function canExpandItem(item: SupplyChainItem): boolean {
     const viewGraph = graphComponent.graph
     const foldingView = viewGraph.foldingView!
     const masterGraph = foldingView.manager.masterGraph
@@ -165,7 +161,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     incrementalItems?: SupplyChainItem[],
     fixedItem: SupplyChainItem | null = null,
     fitViewport = false
-  ) {
+  ): Promise<void> {
     if (!layoutSupport) {
       return Promise.resolve()
     }
@@ -184,7 +180,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     return layoutSupport.runLayout(incremental ?? false, incrementalNodes, fixedNode, fitViewport)
   }
 
- async function collapseItem(item: SupplyChainItem) {
+  async function collapseItem(item: SupplyChainItem): Promise<void> {
     const viewGraph = graphComponent.graph
     const foldingView = viewGraph.foldingView!
     const masterGraph = foldingView.manager.masterGraph
@@ -220,7 +216,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     }
   }
 
-  function expandItem(item: SupplyChainItem) {
+  function expandItem(item: SupplyChainItem): void {
     const viewGraph = graphComponent.graph
     const foldingView = viewGraph.foldingView!
     const masterGraph = foldingView.manager.masterGraph
@@ -262,7 +258,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     }
   }
 
-  function highlightConnectedItems(item: SupplyChainItem) {
+  function highlightConnectedItems(item: SupplyChainItem): void {
     const startNode = getNode(item, graphComponent.graph)!
     if (!startNode) {
       // node is currently not visible in the view graph
@@ -273,12 +269,12 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     neighborhoodIndicatorManager.highlightNeighborhood(startNode)
   }
 
-  function canClearConnectedItemsHighlight() {
+  function canClearConnectedItemsHighlight(): boolean {
     const neighborhoodIndicatorManager = getNeighborhoodIndicatorManager(graphComponent)
     return neighborhoodIndicatorManager.items.size > 0
   }
 
-  function clearConnectedItemsHighlight() {
+  function clearConnectedItemsHighlight(): void {
     const neighborhoodIndicatorManager = getNeighborhoodIndicatorManager(graphComponent)
     neighborhoodIndicatorManager.clearHighlights()
   }
@@ -337,23 +333,23 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     neighborhoodHighlightManager.activateHighlights()
   }
 
-  function zoomIn() {
-    graphComponent.executeCommand(Command.INCREASE_ZOOM,null)
+  function zoomIn(): void {
+    graphComponent.executeCommand(Command.INCREASE_ZOOM, null)
   }
 
-  function zoomOut() {
-    graphComponent.executeCommand(Command.DECREASE_ZOOM,null)
+  function zoomOut(): void {
+    graphComponent.executeCommand(Command.DECREASE_ZOOM, null)
   }
 
-  function fitContent(insets: number = 0) {
+  function fitContent(insets: number = 0): void {
     void graphComponent.fitGraphBounds(new Insets(insets), true)
   }
 
-  function zoomToOriginal() {
-    graphComponent.executeCommand(Command.ZOOM,1.0)
+  function zoomToOriginal(): void {
+    graphComponent.executeCommand(Command.ZOOM, 1.0)
   }
 
-  async function exportToSvg(exportSettings: ExportSettings) {
+  async function exportToSvg(exportSettings: ExportSettings): Promise<void> {
     const settings = Object.assign(
       {
         zoom: graphComponent.zoom,
@@ -367,7 +363,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     await exportSvgAndSave(settings, graphComponent, setRenderedCallback)
   }
 
-  async function exportToPng(exportSettings: ExportSettings) {
+  async function exportToPng(exportSettings: ExportSettings): Promise<void> {
     const settings = Object.assign(
       {
         zoom: graphComponent.zoom,
@@ -381,7 +377,7 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     await exportImageAndSave(settings, graphComponent, setRenderedCallback)
   }
 
-  async function print(printSettings: PrintSettings) {
+  async function print(printSettings: PrintSettings): Promise<void> {
     const settings = Object.assign(
       {
         zoom: graphComponent.zoom,
@@ -393,11 +389,11 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     await printDiagram(settings, graphComponent)
   }
 
-  function refresh() {
+  function refresh(): void {
     graphComponent.invalidate()
   }
 
-  function toggleExpansionState(item: SupplyChainItem) {
+  function toggleExpansionState(item: SupplyChainItem): void {
     const node = getNode(item, graphComponent.graph)
     if (node) {
       graphComponent.executeCommand(Command.TOGGLE_EXPANSION_STATE, node)
@@ -419,11 +415,11 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
     return []
   }
 
-  function filterForConnectedItems(item: SupplyChainItem) {
+  function filterForConnectedItems(item: SupplyChainItem): void {
     showGenealogy(item, true)
   }
 
-  function isGroupItem(item: SupplyChainItem) {
+  function isGroupItem(item: SupplyChainItem): boolean {
     const graph = graphComponent.graph
     const node = getNode(item, graph)
     if (!node) {
@@ -484,7 +480,10 @@ export function createSupplyChainModel<TSupplyChainItem extends SupplyChainItem>
       gcSize.width / enlargedTargetBounds.width,
       gcSize.height / enlargedTargetBounds.height
     )
-    void graphComponent.zoomToAnimated(Math.max(newZoom, graphComponent.zoom), enlargedTargetBounds.center)
+    void graphComponent.zoomToAnimated(
+      Math.max(newZoom, graphComponent.zoom),
+      enlargedTargetBounds.center
+    )
   }
 
   return {

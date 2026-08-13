@@ -1,6 +1,7 @@
-import { UserSupplyChainItem, SupplyChainItem } from '../SupplyChain.tsx'
+import type { UserSupplyChainItem, SupplyChainItem } from '../SupplyChain.tsx'
 import { getUserProperties, getHighlightClasses, stringifyData } from './template-utils.ts'
-import { RenderNodeProps as RenderItemProps } from '@yworks/react-yfiles-core'
+import type { RenderNodeProps as RenderItemProps } from '@yworks/react-yfiles-core'
+import type { JSX } from 'react';
 import { Fragment } from 'react'
 
 /**
@@ -50,7 +51,7 @@ export function RenderSupplyChainItem<TSupplyChainItem extends SupplyChainItem>(
   hovered,
   focused,
   selected
-}: RenderItemProps<TSupplyChainItem>) {
+}: RenderItemProps<TSupplyChainItem>): JSX.Element {
   const customSupplyChainItem = dataItem as UserSupplyChainItem & { __color?: string }
   const properties = getUserProperties(customSupplyChainItem)
 

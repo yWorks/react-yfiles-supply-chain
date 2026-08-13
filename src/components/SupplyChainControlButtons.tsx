@@ -1,4 +1,5 @@
-import { ControlButton, DefaultControlButtons } from '@yworks/react-yfiles-core'
+import type { ControlButton, Controls, ControlsProps } from '@yworks/react-yfiles-core'
+import { DefaultControlButtons } from '@yworks/react-yfiles-core'
 
 /**
  * Default [buttons]{@link ControlsProps.buttons} for the {@link Controls} component that provide

@@ -1,8 +1,8 @@
 import {
   Arrow,
   EdgeStyleIndicatorRenderer,
-  GraphComponent,
-  GraphInputMode,
+  type GraphComponent,
+  type GraphInputMode,
   type IModelItem,
   NodeStyleIndicatorRenderer,
   PolylineEdgeStyle,
@@ -34,7 +34,7 @@ const HOVER_HIGHLIGHT_COLOR = '#FF6F00'
 export function configureIndicatorStyling(
   graphComponent: GraphComponent,
   inputMode: GraphInputMode
-) {
+): void {
   // show the indicators on hover
   inputMode.itemHoverInputMode.addEventListener('hovered-item-changed', ({ item, oldItem }) => {
     void highlightItem(graphComponent, oldItem, false)
