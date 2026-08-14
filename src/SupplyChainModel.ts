@@ -1,12 +1,12 @@
-import { FilteredGraphWrapper, GraphComponent, IEdge, IGraph, INode } from '@yfiles/yfiles'
+import type { FilteredGraphWrapper, GraphComponent, IEdge, IGraph, INode } from '@yfiles/yfiles'
 import { type ExportSettings, type PrintSettings } from '@yworks/react-yfiles-core'
-import {
+import type {
   FoldingConnection,
   SupplyChainConnection,
   SupplyChainItem,
   SupplyChainItemId
 } from './SupplyChain.tsx'
-import { LayoutSupport } from './core/LayoutSupport.ts'
+import type { LayoutSupport } from './core/LayoutSupport.ts'
 
 /**
  * The SupplyChainModel provides common functionality to interact with the {@link SupplyChain} component.

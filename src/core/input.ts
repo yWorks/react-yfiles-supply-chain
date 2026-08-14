@@ -2,17 +2,17 @@ import {
   type GraphComponent,
   GraphItemTypes,
   GraphViewerInputMode,
-  HoveredItemChangedEventArgs,
+  type HoveredItemChangedEventArgs,
   IEdge,
   INode,
-  InputModeItemEventArgs,
-  ItemHoverInputMode,
-  NavigationInputMode,
+  type InputModeItemEventArgs,
+  type ItemHoverInputMode,
+  type NavigationInputMode,
   NodeAlignmentPolicy
 } from '@yfiles/yfiles'
 import { getSupplyChainItem } from './data-loading'
-import { SupplyChainModel } from '../SupplyChainModel'
-import { SupplyChainBaseItem, SupplyChainItem } from '../SupplyChain.tsx'
+import type { SupplyChainModel } from '../SupplyChainModel'
+import type { SupplyChainBaseItem, SupplyChainItem } from '../SupplyChain.tsx'
 import { configureIndicatorStyling } from './configure-highlight-indicators.ts'
 import { getNeighborhoodIndicatorManager } from './NeighborhoodIndicatorManager.ts'
 
@@ -56,18 +56,18 @@ export function initializeInputMode(
 export function configureExpandCollapse(
   navigationInputMode: NavigationInputMode,
   SupplyChain: SupplyChainModel
-) {
+): void {
   const expandCollapsingListener = (
     _: InputModeItemEventArgs<INode>,
     sender: NavigationInputMode
-  ) => {
+  ): void => {
     const neighborhoodHighlightManager = getNeighborhoodIndicatorManager(sender.graphComponent!)
     neighborhoodHighlightManager.deactivateHighlights()
   }
   const expandCollapsedListener = (
     evt: InputModeItemEventArgs<INode>,
     sender: NavigationInputMode
-  ) => {
+  ): void => {
     const incrementalItems = SupplyChain.getChildren(evt.item.tag).concat([evt.item.tag])
     SupplyChain.applyLayout(true, incrementalItems, evt.item.tag).then(() => {
       const graphComponent = SupplyChain.graphComponent
@@ -88,7 +88,7 @@ export function configureExpandCollapse(
 export function initializeHover<TSupplyChainItem extends SupplyChainBaseItem>(
   onHover: ((item: TSupplyChainItem | null, oldItem?: TSupplyChainItem | null) => void) | undefined,
   graphComponent: GraphComponent
-) {
+): (evt: HoveredItemChangedEventArgs, sender: ItemHoverInputMode) => void {
   const inputMode = graphComponent.inputMode as GraphViewerInputMode
   inputMode.itemHoverInputMode.hoverItems = GraphItemTypes.NODE | GraphItemTypes.EDGE
 
@@ -112,11 +112,11 @@ export function initializeHover<TSupplyChainItem extends SupplyChainBaseItem>(
 export function initializeFocus<TSupplyChainItem extends SupplyChainBaseItem>(
   onFocus: ((item: TSupplyChainItem | null) => void) | undefined,
   graphComponent: GraphComponent
-) {
-  let currentItemChangedListener = () => {}
+): () => void {
+  let currentItemChangedListener = (): void => {}
   if (onFocus) {
     // display information about the current item
-    currentItemChangedListener = () => {
+    currentItemChangedListener = (): void => {
       const currentItem = graphComponent.currentItem
       if (currentItem instanceof INode) {
         onFocus(getSupplyChainItem<TSupplyChainItem>(currentItem))
@@ -136,11 +136,11 @@ export function initializeFocus<TSupplyChainItem extends SupplyChainBaseItem>(
 export function initializeSelection<TSupplyChainItem extends SupplyChainBaseItem>(
   onSelect: ((selectedItems: TSupplyChainItem[]) => void) | undefined,
   graphComponent: GraphComponent
-) {
-  let itemSelectionChangedListener = () => {}
+): () => void {
+  let itemSelectionChangedListener = (): void => {}
   if (onSelect) {
     // display information about the current item
-    itemSelectionChangedListener = () => {
+    itemSelectionChangedListener = (): void => {
       onSelect(
         graphComponent.selection
           .filter(element => element instanceof IEdge || element instanceof INode)

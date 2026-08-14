@@ -1,4 +1,4 @@
-import { FoldingConnection, SupplyChainConnection, SupplyChainItem } from '../SupplyChain.tsx'
+import type { FoldingConnection, SupplyChainConnection, SupplyChainItem } from '../SupplyChain.tsx'
 
 export function stringifyData(data: any): string {
   return typeof data === 'object' ? JSON.stringify(data) : String(data)
@@ -20,7 +20,7 @@ export function getHighlightClasses(selected: boolean, hovered: boolean, focused
 
 export function getUserProperties(
   data: SupplyChainItem | SupplyChainConnection | FoldingConnection
-) {
+): { [p: string]: any } {
   const internalProperties = [
     'id',
     'className',

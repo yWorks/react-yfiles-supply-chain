@@ -1,8 +1,9 @@
-import { UserSupplyChainItem, SupplyChainItem } from '../SupplyChain.tsx'
+import type { UserSupplyChainItem, SupplyChainItem } from '../SupplyChain.tsx'
 import { getHighlightClasses } from './template-utils.ts'
-import { RenderGroupNodeProps as RenderGroupProps } from '@yworks/react-yfiles-core'
+import type { RenderGroupNodeProps as RenderGroupProps } from '@yworks/react-yfiles-core'
 import { useSupplyChainContext } from '../SupplyChainProvider.tsx'
 import '../styles/supply-chain-group.css'
+import type { JSX} from 'react';
 import { useMemo } from 'react'
 
 /**
@@ -67,7 +68,7 @@ export function RenderSupplyChainGroup<TSupplyChainItem extends SupplyChainItem>
   focused,
   selected,
   isFolderNode
-}: RenderGroupProps<TSupplyChainItem>) {
+}: RenderGroupProps<TSupplyChainItem>): JSX.Element {
   const customSupplyChainItem = dataItem as UserSupplyChainItem & { __color?: string }
   const supplyChainContext = useSupplyChainContext()
 
@@ -102,7 +103,7 @@ export function RenderSupplyChainGroup<TSupplyChainItem extends SupplyChainItem>
           <div
             className="yfiles-react-group__header"
             onClick={() => supplyChainContext.toggleExpansionState(dataItem)}
-            onPointerDown={(event) => event.preventDefault()}
+            onPointerDown={event => event.preventDefault()}
           >
             <button className="yfiles-react-group__icon-button">
               <i className="yfiles-react-group__icon yfiles-react-group__collapse-icon"></i>

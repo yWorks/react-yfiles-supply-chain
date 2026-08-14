@@ -1,5 +1,5 @@
-import { FoldingConnection, SupplyChainConnection, SupplyChainItem } from '../SupplyChain.tsx'
-import { ContextMenuItem } from '@yworks/react-yfiles-core'
+import type { FoldingConnection, SupplyChainConnection, SupplyChainItem } from '../SupplyChain.tsx'
+import type { ContextMenuItem } from '@yworks/react-yfiles-core'
 import { useSupplyChainContext } from '../SupplyChainProvider.tsx'
 
 /**

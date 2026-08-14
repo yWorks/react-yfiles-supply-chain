@@ -1,31 +1,31 @@
 import {
   type GraphComponent,
   HierarchicalLayoutData,
-  IEdge,
-  IEdgeStyle,
-  IGraph,
-  ILabel,
-  ILabelStyle,
+  type IEdge,
+  type IEdgeStyle,
+  type IGraph,
+  type ILabel,
+  type ILabelStyle,
   INode,
   LabelStyle,
   LayoutAnchoringPolicy,
   LayoutAnchoringStageData,
-  LayoutData,
+  type LayoutData,
   LayoutExecutor,
   LayoutExecutorAsync,
   LayoutGrid,
-  LayoutGridCellDescriptor,
+  type LayoutGridCellDescriptor,
   LayoutGridData,
   Mapper,
   PolylineEdgeStyle,
-  Rect
+  type Rect
 } from '@yfiles/yfiles'
-import {
+import type {
   GridPositioningFunction,
   SupplyChainItem,
   SupplyChainLayoutOptions
 } from '../SupplyChain.tsx'
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { defaultGraphFitInsets, defaultLayoutOptions } from './defaults.ts'
 import { registerWebWorker } from '@yworks/react-yfiles-core'
 import { createLayout } from './WebWorkerSupport.ts'
@@ -66,7 +66,8 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
 
     if (incremental) {
       layoutData = new HierarchicalLayoutData({
-        incrementalNodes: item => item instanceof INode && incrementalNodes.includes(item)
+        incrementalNodes: (item: INode): boolean =>
+          item instanceof INode && incrementalNodes.includes(item)
       })
     }
 
@@ -110,7 +111,7 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
 
     if (fixedNode) {
       const layoutAnchoringStageData = new LayoutAnchoringStageData()
-      layoutAnchoringStageData.nodeAnchoringPolicies = node =>
+      layoutAnchoringStageData.nodeAnchoringPolicies = (node: INode): LayoutAnchoringPolicy =>
         node === fixedNode ? LayoutAnchoringPolicy.UPPER_LEFT : LayoutAnchoringPolicy.NONE
       layoutData = layoutData!.combineWith(layoutAnchoringStageData)
     }
@@ -187,7 +188,7 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
    * with now obsolete node sizes - stop the running animation and restore
    * the latest measured node sizes.
    */
-  private async maybeCancel() {
+  private async maybeCancel(): Promise<void> {
     const syncRunning = this.executor && this.executor.running
     const asyncRunning = this.executorAsync && this.executorAsync.running
     if (syncRunning || asyncRunning) {
@@ -248,7 +249,7 @@ export class LayoutSupport<TSupplyChainItem extends SupplyChainItem> {
       data.incremental = incremental
       data.layoutOptions = this.layoutOptions
       return new Promise((resolve, reject) => {
-        worker.onmessage = e => {
+        worker.onmessage = (e: MessageEvent): void => {
           // don't resolve cancelled requests
           if (e.data && thisRequest === e.data.token) {
             if (e.data.name === 'AlgorithmAbortedError') {

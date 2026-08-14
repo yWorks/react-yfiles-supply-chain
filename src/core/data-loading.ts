@@ -1,31 +1,26 @@
-import {
-  EdgesSource,
-  GraphBuilder,
-  IEdge,
-  type IGraph,
-  type INode,
-  LabelStyle,
-  NodesSource
-} from '@yfiles/yfiles'
+import type { EdgesSource, IEdge, IEdgeStyle, ILabelStyle, NodesSource } from '@yfiles/yfiles'
+import { GraphBuilder, type IGraph, type INode, LabelStyle } from '@yfiles/yfiles'
 import {
   convertToPolylineEdgeStyle,
-  NodeRenderInfo,
+  type NodeRenderInfo,
   ReactComponentHtmlGroupNodeStyle,
   ReactComponentHtmlNodeStyle,
-  RenderGroupNodeProps as RenderGroupProps,
-  RenderNodeProps as RenderItemProps
+  type RenderGroupNodeProps as RenderGroupProps,
+  type RenderNodeProps as RenderItemProps
 } from '@yworks/react-yfiles-core'
-import {
+import type {
   ConnectionLabelProvider,
   ConnectionStyleProvider,
   SimpleConnectionLabel,
   SupplyChainBaseItem,
   SupplyChainConnection,
   SupplyChainData,
-  SupplyChainItem
+  SupplyChainItem,
+  SupplyChainItemId
 } from '../SupplyChain'
-import { ComponentType, Dispatch, SetStateAction } from 'react'
-import { getNode, SupplyChainModel } from '../SupplyChainModel.ts'
+import type { ComponentType, Dispatch, SetStateAction } from 'react'
+import type { SupplyChainModel } from '../SupplyChainModel.ts'
+import { getNode } from '../SupplyChainModel.ts'
 import { colorMapping } from '../styles/color-utils.ts'
 
 export class GraphManager<
@@ -77,7 +72,7 @@ export class GraphManager<
     renderGroup?: ComponentType<RenderGroupProps<TSupplyChainItem>>,
     connectionStyleProvider?: ConnectionStyleProvider<TSupplyChainItem, TSupplyChainConnection>,
     connectionLabelProvider?: ConnectionLabelProvider<TSupplyChainConnection>
-  ) {
+  ): void {
     const { nodeData, groupsData } = this.separateGroupItems(data)
     const connectionsData = data.connections
 
@@ -132,13 +127,15 @@ export function initializeGraphManager<
   const graphBuilder = new GraphBuilder(graph)
 
   const nodesSource = graphBuilder.createNodesSource<TSupplyChainItem>([], 'id')
-  nodesSource.parentIdProvider = dataItem => dataItem.parentId
+  nodesSource.parentIdProvider = (dataItem: TSupplyChainItem): SupplyChainItemId | undefined =>
+    dataItem.parentId
 
   const groupsSource = graphBuilder.createGroupNodesSource<TSupplyChainItem>(
     [],
-    dataItem => dataItem.id
+    (dataItem: TSupplyChainItem): SupplyChainItemId => dataItem.id
   )
-  groupsSource.parentIdProvider = dataItem => dataItem.parentId
+  groupsSource.parentIdProvider = (dataItem: TSupplyChainItem): SupplyChainItemId | undefined =>
+    dataItem.parentId
 
   const edgesSource = graphBuilder.createEdgesSource<TSupplyChainConnection>(
     [],
@@ -148,7 +145,7 @@ export function initializeGraphManager<
 
   const edgeCreator = edgesSource.edgeCreator
 
-  edgeCreator.styleProvider = (edge: TSupplyChainConnection) => {
+  edgeCreator.styleProvider = (edge: TSupplyChainConnection): IEdgeStyle | null => {
     if (graphManager.connectionStyleProvider) {
       const edgeStyle = graphManager.connectionStyleProvider([
         {
@@ -166,14 +163,14 @@ export function initializeGraphManager<
 
   const labelBinding = edgeCreator.createLabelBinding()
 
-  labelBinding.textProvider = dataItem =>
+  labelBinding.textProvider = (dataItem: TSupplyChainConnection): string | null =>
     getConnectionLabelText(supplyChainModel, dataItem, graphManager.connectionLabelProvider)
-  labelBinding.styleProvider = dataItem =>
+  labelBinding.styleProvider = (dataItem: TSupplyChainConnection): ILabelStyle | null =>
     getConnectionLabelStyle(supplyChainModel, dataItem, graphManager.connectionLabelProvider)
 
   const nodeCreator = nodesSource.nodeCreator
 
-  nodeCreator.styleProvider = () => {
+  nodeCreator.styleProvider = (): ReactComponentHtmlNodeStyle<TSupplyChainItem> | null => {
     if (graphManager.renderItem) {
       return new ReactComponentHtmlNodeStyle(
         graphManager.renderItem,
@@ -201,16 +198,17 @@ export function initializeGraphManager<
   )
 
   const groupNodeCreator = groupsSource.nodeCreator
-  groupNodeCreator.styleProvider = () => {
-    if (graphManager.renderGroup) {
-      return new ReactComponentHtmlGroupNodeStyle(
-        graphManager.renderGroup,
-        setNodeInfos,
-        (ctx, node) => ({ ...node.tag, __color: colorMapping(node.tag) })
-      )
+  groupNodeCreator.styleProvider =
+    (): ReactComponentHtmlGroupNodeStyle<TSupplyChainItem> | null => {
+      if (graphManager.renderGroup) {
+        return new ReactComponentHtmlGroupNodeStyle(
+          graphManager.renderGroup,
+          setNodeInfos,
+          (ctx, node) => ({ ...node.tag, __color: colorMapping(node.tag) })
+        )
+      }
+      return null
     }
-    return null
-  }
   groupNodeCreator.layoutBindings.addBinding(
     'width',
     (item: TSupplyChainItem) => item.width ?? graph.nodeDefaults.size.width

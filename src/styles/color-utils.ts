@@ -1,4 +1,4 @@
-import { SupplyChainItem, SupplyChainItemId } from '../SupplyChain.tsx'
+import type { SupplyChainItem, SupplyChainItemId } from '../SupplyChain.tsx'
 
 const materialColors400 = [
   'background1',

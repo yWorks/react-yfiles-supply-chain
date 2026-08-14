@@ -1,13 +1,14 @@
 import {
-  FoldingEdgeState, FoldingSynchronizationOptions,
+  type FoldingEdgeState,
+  FoldingSynchronizationOptions,
   FreeEdgeLabelModel,
-  IEdge,
-  IFoldingView,
-  IListEnumerable,
+  type IEdge,
+  type IFoldingView,
+  type IListEnumerable,
   MergingFoldingEdgeConverter,
   SimpleLabel
 } from '@yfiles/yfiles'
-import {
+import type {
   ConnectionStyleProvider,
   FoldingConnection,
   SimpleConnectionLabel,
@@ -30,15 +31,13 @@ export default class StylingFoldingEdgeConverter<
   TSupplyChainItem extends SupplyChainBaseItem,
   TSupplyChainConnection extends SupplyChainConnection
 > extends MergingFoldingEdgeConverter {
-
   constructor() {
     super()
     this.foldingEdgeDefaults.updateMasterOptions = FoldingSynchronizationOptions.NONE
   }
 
   private _connectionStyleProvider:
-    | ConnectionStyleProvider<TSupplyChainItem, TSupplyChainConnection>
-    | undefined = undefined
+    ConnectionStyleProvider<TSupplyChainItem, TSupplyChainConnection> | undefined = undefined
   set connectionStyleProvider(
     value: ConnectionStyleProvider<TSupplyChainItem, TSupplyChainConnection> | undefined
   ) {
@@ -56,7 +55,7 @@ export default class StylingFoldingEdgeConverter<
     foldingView: IFoldingView,
     foldingEdge: IEdge,
     masterEdges: IListEnumerable<IEdge>
-  ) {
+  ): void {
     super.initializeFoldingEdgeState(state, foldingView, foldingEdge, masterEdges)
     this.updateFoldingEdgeState(state, foldingView, foldingEdge, masterEdges)
   }
@@ -66,7 +65,7 @@ export default class StylingFoldingEdgeConverter<
     foldingView: IFoldingView,
     foldingEdge: IEdge,
     masterEdges: IListEnumerable<IEdge>
-  ) {
+  ): void {
     state.clearLabels()
 
     if (this._connectionStyleProvider) {

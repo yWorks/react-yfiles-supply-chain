@@ -6,9 +6,9 @@ import {
   HighlightIndicatorManager,
   IEdge,
   ILookupDecorator,
-  IModelItem,
+  type IModelItem,
   INode,
-  IObjectRenderer,
+  type IObjectRenderer,
   LookupDecorator,
   Neighborhood,
   NodeStyleIndicatorRenderer,
@@ -26,7 +26,6 @@ export class NeighborhoodIndicatorManager extends HighlightIndicatorManager<any>
   constructor(private readonly graphComponent: GraphComponent) {
     super()
   }
-
 
   protected getRenderer(item: any): IObjectRenderer<any> | null {
     return item instanceof INode
@@ -97,7 +96,7 @@ export class NeighborhoodIndicatorManager extends HighlightIndicatorManager<any>
     }
   }
 
-  addHighlight(viewItem: IModelItem) {
+  addHighlight(viewItem: IModelItem): void {
     super.items?.add(viewItem)
 
     const graph = this.graphComponent.graph
@@ -105,7 +104,7 @@ export class NeighborhoodIndicatorManager extends HighlightIndicatorManager<any>
     this.neighborhoodCollection.add(foldingView.getMasterItem(viewItem)!)
   }
 
-  clearHighlights() {
+  clearHighlights(): void {
     this.neighborhoodCollection.clear()
     super.items?.clear()
   }
@@ -168,7 +167,7 @@ export function registerNeighborHoodIndicatorManager(graphComponent: GraphCompon
   const lookupDecorator = graphComponent.lookup(ILookupDecorator) as ILookupDecorator
 
   new LookupDecorator(GraphComponent, NeighborhoodIndicatorManager, lookupDecorator).addConstant(
-      neighborhoodIndicatorManager
+    neighborhoodIndicatorManager
   )
 }
 

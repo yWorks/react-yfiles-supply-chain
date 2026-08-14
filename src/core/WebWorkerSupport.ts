@@ -2,15 +2,15 @@ import {
   FromSketchLayerAssigner,
   GroupLayeringPolicy,
   HierarchicalLayout,
-  ILayoutAlgorithm,
+  type ILayoutAlgorithm,
   LayoutAnchoringStage,
   LayoutExecutorAsyncWorker,
-  LayoutGraph,
+  type LayoutGraph,
   License,
-  RoutingStyleDescriptor,
+  RoutingStyleDescriptor
 } from '@yfiles/yfiles'
-import {SupplyChainLayoutOptions} from '../SupplyChain.tsx'
-import {defaultLayoutOptions} from './defaults.ts'
+import type { SupplyChainLayoutOptions } from '../SupplyChain.tsx'
+import { defaultLayoutOptions } from './defaults.ts'
 
 export function createLayout(
   incremental: boolean,
@@ -84,7 +84,7 @@ function applyLayout(
  * return <SupplyChain data={data} layoutWorker={layoutWorker}></SupplyChain>
  * ```
  */
-export function initializeWebWorker(self: Window) {
+export function initializeWebWorker(self: Window): void {
   self.addEventListener(
     'message',
     e => {
